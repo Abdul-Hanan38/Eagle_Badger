@@ -48,7 +48,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                 ],
               ),
 
-              const SizedBox(height: 20),
+              const SizedBox(height: 10),
               Row(
                 children: [
                   IconButton(
@@ -75,7 +75,13 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   style: TextStyle(color: Colors.grey),
                 ),
               ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
+              Divider(
+                color: Theme.of(context).colorScheme.secondary,
+                thickness: 1,
+              ),
+
+              const SizedBox(height: 10),
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -138,15 +144,18 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 40),
+              const SizedBox(height: 10),
+              Divider(color: Theme.of(context).colorScheme.secondary),
+              const SizedBox(height: 10),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: const [
+                      SizedBox(width: 10),
                       Icon(Icons.sync, color: Colors.red, size: 16),
-                      SizedBox(width: 8),
+                      SizedBox(width: 10),
                       Text(
                         "Last sync: 2 min ago",
                         style: TextStyle(color: Colors.white, fontSize: 12),
@@ -154,9 +163,13 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     ],
                   ),
                   const SizedBox(height: 4),
-                  const Text(
-                    "All actions are time-stamped and location-verified",
-                    style: TextStyle(color: Colors.grey, fontSize: 10),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: const Text(
+                      "All actions are time-stamped and location-verified",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(color: Colors.grey, fontSize: 10),
+                    ),
                   ),
                 ],
               ),
