@@ -1,4 +1,5 @@
-import 'package:eagle_badger/screens/canvassing.dart';
+import 'package:eagle_badger/screens/daily_route.dart';
+import 'package:eagle_badger/screens/dashboard.dart';
 import 'package:eagle_badger/screens/contact.dart';
 import 'package:eagle_badger/screens/field_surveys.dart';
 import 'package:eagle_badger/screens/field_work_menu.dart';
@@ -41,13 +42,14 @@ class MyApp extends StatelessWidget {
         '/otp': (context) => const OtpVerificationScreen(),
         '/permission': (context) => const PermissionScreen(),
         '/fieldWork': (context) => const FieldWorkMenuScreen(),
-        '/canvassing': (context) => const Canvassing(),
+        '/dashboard': (context) => const DashboardScreen(),
         '/fieldSurvey': (context) => const FieldSurveyScreen(),
         '/survey': (context) => const SurveyScreen(),
         '/contact': (context) => const ContactScreen(),
         '/report': (context) => const ReportScreen(),
         '/tally': (context) => const TallyScreen(),
         '/finalize': (context) => const FinalizeScreen(),
+        '/dailyRoute': (context) => const AiDailyRouteScreen(),
       },
     );
   }

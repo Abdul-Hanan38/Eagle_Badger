@@ -96,7 +96,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     backgroundColor: Color.fromARGB(255, 102, 126, 167),
                     actions: {
                       "CANVASSING": () =>
-                          Navigator.pushNamed(context, '/canvassing'),
+                          Navigator.pushNamed(context, '/dashboard'),
                       "FIELD SURVEYS": () =>
                           Navigator.pushNamed(context, '/fieldSurvey'),
                     },
