@@ -37,7 +37,7 @@ class DashboardScreen extends StatelessWidget {
                         Text(
                           "Field Agent",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 185, 157, 161),
+                            color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),
@@ -203,17 +203,21 @@ class DashboardScreen extends StatelessWidget {
                             children: [
                               // Location Info
                               Row(
-                                children: const [
+                                children: [
                                   Icon(
                                     Icons.location_on,
-                                    color: Color(0xFFB99DA1),
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
                                     size: 16,
                                   ),
                                   SizedBox(width: 4),
                                   Text(
                                     "Central High School",
                                     style: TextStyle(
-                                      color: Color(0xFFB99DA1),
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
                                       fontSize: 13,
                                     ),
                                   ),
@@ -254,11 +258,11 @@ class DashboardScreen extends StatelessWidget {
               ),
 
               const SizedBox(height: 30),
-              const Center(
+              Center(
                 child: Text(
                   "Today's Performance",
                   style: TextStyle(
-                    color: Color.fromARGB(255, 185, 157, 161),
+                    color: Theme.of(context).colorScheme.onPrimary,
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
@@ -293,10 +297,10 @@ class DashboardScreen extends StatelessWidget {
                             fontWeight: FontWeight.bold,
                           ),
                         ),
-                        const Text(
+                        Text(
                           "Complete",
                           style: TextStyle(
-                            color: Color.fromARGB(255, 185, 157, 161),
+                            color: Theme.of(context).colorScheme.onPrimary,
                             fontSize: 12,
                             fontWeight: FontWeight.bold,
                           ),

@@ -16,6 +16,7 @@ class AppTheme {
         seedColor: darkBg,
         primary: brandRed,
         primaryContainer: const Color(0xFF381A1A),
+        onPrimary: Color.fromARGB(255, 185, 157, 161),
         onSecondaryContainer: greyContainer,
         surface: darkBg,
         secondary: const Color(0xFF2D2D2D),
