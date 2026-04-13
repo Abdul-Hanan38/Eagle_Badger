@@ -5,6 +5,8 @@ import 'package:eagle_badger/screens/field_surveys.dart';
 import 'package:eagle_badger/screens/field_work_menu.dart';
 import 'package:eagle_badger/screens/finalize.dart';
 import 'package:eagle_badger/screens/help_screen.dart';
+import 'package:eagle_badger/screens/interaction_screen.dart';
+import 'package:eagle_badger/screens/local_pulse.dart';
 import 'package:eagle_badger/screens/login_screen.dart';
 import 'package:eagle_badger/screens/otp_verification_screen.dart';
 import 'package:eagle_badger/screens/permission_screen.dart';
@@ -50,6 +52,8 @@ class MyApp extends StatelessWidget {
         '/tally': (context) => const TallyScreen(),
         '/finalize': (context) => const FinalizeScreen(),
         '/dailyRoute': (context) => const AiDailyRouteScreen(),
+        '/localPulse': (context) => const LocalPulseScreen(),
+        'interaction': (context) => const InteractionScreen(),
       },
     );
   }

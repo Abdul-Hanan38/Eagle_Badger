@@ -22,6 +22,7 @@ class AppTheme {
         secondary: const Color(0xFF2D2D2D),
         secondaryContainer: cardColor,
         onSurface: Colors.white,
+        tertiaryContainer: const Color.fromARGB(255, 39, 28, 29),
       ),
       textTheme: GoogleFonts.publicSansTextTheme(
         ThemeData.dark().textTheme.copyWith(

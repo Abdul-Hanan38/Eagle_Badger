@@ -39,7 +39,7 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A0F0F),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
         onTap: () {
@@ -71,9 +71,10 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                               size: 24,
                             ),
                           ),
+                          const SizedBox(width: 50),
                           const Expanded(
                             child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "AI Daily Route",
@@ -161,7 +162,6 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                         size: 20,
                                       ),
                                       const SizedBox(width: 10),
-                                      // Use Expanded so the TextField takes the remaining space in the Row
                                       Expanded(
                                         child: TextField(
                                           style: const TextStyle(
@@ -169,9 +169,7 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                             fontSize: 14,
                                             height: 1.0,
                                           ),
-                                          cursorColor: const Color(
-                                            0xFFC6102E,
-                                          ), // Your brand red for the cursor
+                                          cursorColor: const Color(0xFFC6102E),
                                           textAlignVertical:
                                               TextAlignVertical.center,
                                           decoration: const InputDecoration(
@@ -380,15 +378,17 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
-                            color: const Color(0xFF251111),
+                            color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(16),
-                            border: Border.all(color: Colors.white10),
+                            border: Border.all(
+                              color: const Color.fromARGB(138, 91, 90, 90),
+                            ),
                           ),
                           child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 "Manual Address Entry",
-                                textAlign: TextAlign.start,
                                 style: TextStyle(
                                   color: Theme.of(
                                     context,
@@ -405,7 +405,18 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                 ),
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: const Color(0xFF1A0F0F),
+                                  fillColor: Colors.white10,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                    borderSide: BorderSide(
+                                      color: const Color.fromARGB(
+                                        138,
+                                        103,
+                                        103,
+                                        103,
+                                      ),
+                                    ),
+                                  ),
                                   prefixIcon: const Icon(
                                     Icons.location_on,
                                     color: Colors.grey,
@@ -425,13 +436,14 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                 ),
                               ),
                               SizedBox(height: 10),
-                              Text(
-                                "GPS coordinates will be automatically generated on entery",
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  color: Colors.grey,
-                                  fontSize: 8,
-                                  fontWeight: FontWeight.bold,
+                              Center(
+                                child: Text(
+                                  "GPS coordinates will be automatically generated on entery",
+                                  style: TextStyle(
+                                    color: Colors.grey,
+                                    fontSize: 8,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                                 ),
                               ),
                             ],
@@ -448,7 +460,9 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                           width: 350,
                           height: 56,
                           child: ElevatedButton.icon(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/localPulse');
+                            },
                             style: ElevatedButton.styleFrom(
                               backgroundColor: const Color(0xFFC6102E),
                               shape: RoundedRectangleBorder(
