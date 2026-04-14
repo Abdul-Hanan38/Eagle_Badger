@@ -22,15 +22,14 @@ class ResidentTile extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1E1E), // Slightly lighter than background
+        color: Theme.of(context).colorScheme.tertiaryContainer,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundImage: imageUrl != null ? NetworkImage(imageUrl!) : null,
-            child: imageUrl == null ? const Icon(Icons.person) : null,
+            backgroundImage: AssetImage(imageUrl.toString()),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -47,7 +46,10 @@ class ResidentTile extends StatelessWidget {
                 ),
                 Text(
                   "Age: $age | Voter ID: $voterId",
-                  style: const TextStyle(color: Colors.grey, fontSize: 13),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 13,
+                  ),
                 ),
               ],
             ),
@@ -57,7 +59,7 @@ class ResidentTile extends StatelessWidget {
             width: 12,
             height: 12,
             decoration: BoxDecoration(
-              color: statusColor.withOpacity(0.2),
+              color: statusColor.withValues(alpha: 0.2),
               shape: BoxShape.circle,
               border: Border.all(color: statusColor, width: 2),
             ),

@@ -1,30 +1,35 @@
 import 'package:flutter/material.dart';
 import '../widgets/resident_tile.dart';
 
-class InteractionScreen extends StatelessWidget {
-  const InteractionScreen({super.key});
+class FieldSurveyScreen extends StatelessWidget {
+  const FieldSurveyScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF0F0F0F),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
             // --- CUSTOM APP BAR ---
             _buildAppBar(context),
 
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Divider(color: Theme.of(context).colorScheme.secondary),
+            ),
+
             Expanded(
               child: CustomScrollView(
                 physics: const BouncingScrollPhysics(),
                 slivers: [
                   // --- MAP & ADDRESS CARD ---
-                  SliverToBoxAdapter(child: _buildLocationCard()),
+                  SliverToBoxAdapter(child: _buildLocationCard(context)),
 
                   // --- RESIDENTS HEADER ---
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.fromLTRB(20, 24, 20, 12),
+                      padding: const EdgeInsets.fromLTRB(20, 5, 20, 5),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -39,7 +44,7 @@ class InteractionScreen extends StatelessWidget {
                           TextButton.icon(
                             onPressed: () {},
                             icon: const Icon(
-                              Icons.history,
+                              Icons.schedule,
                               color: Colors.red,
                               size: 16,
                             ),
@@ -63,12 +68,14 @@ class InteractionScreen extends StatelessWidget {
                           age: "45",
                           voterId: "8829-X",
                           statusColor: Colors.green,
+                          imageUrl: 'assets/images/avator1.png',
                         ),
                         const ResidentTile(
                           name: "Jane Doe",
                           age: "42",
                           voterId: "8830-Y",
                           statusColor: Colors.orange,
+                          imageUrl: 'assets/images/avator2.png',
                         ),
                       ]),
                     ),
@@ -85,9 +92,8 @@ class InteractionScreen extends StatelessWidget {
           ],
         ),
       ),
-      // --- FLOATING ACTION BUTTON ---
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: _buildStartButton(),
+      // --- Navigation BUTTON ---
+      bottomNavigationBar: _buildStartButton(context),
     );
   }
 
@@ -100,38 +106,48 @@ class InteractionScreen extends StatelessWidget {
             onPressed: () => Navigator.pop(context),
             icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
           ),
-          const Expanded(
+          const SizedBox(width: 50),
+          Expanded(
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Ward 12 - Neighborhood",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 16,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   "Campaign Route Alpha",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
+                  style: TextStyle(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(Icons.more_vert, color: Colors.white),
+            icon: const Icon(
+              Icons.more_vert,
+              color: Colors.white,
+              size: 30,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildLocationCard() {
+  Widget _buildLocationCard(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: const Color(0xFF1A1A1A),
+        color: const Color.fromARGB(255, 39, 28, 29),
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -139,9 +155,8 @@ class InteractionScreen extends StatelessWidget {
         children: [
           // Static Map Placeholder
           ClipRRect(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
-            child: Image.network(
-              'https://api.placeholder.com/map/400/150', // Replace with your Mapbox/Google Map
+            child: Image.asset(
+              'assets/images/map_placeholder.png',
               height: 180,
               width: double.infinity,
               fit: BoxFit.cover,
@@ -157,12 +172,15 @@ class InteractionScreen extends StatelessWidget {
                   children: [
                     _buildBadge(
                       "Priority Household",
-                      const Color(0xFF381A1A),
-                      Colors.red,
+                      const Color.fromARGB(57, 198, 16, 46),
+                      const Color.fromARGB(255, 198, 16, 46),
                     ),
-                    const Text(
+                    Text(
                       "HH-90210",
-                      style: TextStyle(color: Colors.grey, fontSize: 12),
+                      style: TextStyle(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                        fontSize: 12,
+                      ),
                     ),
                   ],
                 ),
@@ -172,10 +190,12 @@ class InteractionScreen extends StatelessWidget {
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 28,
-                    fontWeight: FontWeight.bold,
+                    fontWeight: FontWeight.w900,
                   ),
                 ),
                 const SizedBox(height: 12),
+                Divider(color: Theme.of(context).colorScheme.secondary),
+                const SizedBox(height: 10),
                 Row(
                   children: [
                     _buildIconLabel(Icons.groups, "3 Voters", Colors.red),
@@ -187,6 +207,8 @@ class InteractionScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                const SizedBox(height: 10),
+                Divider(color: Theme.of(context).colorScheme.secondary),
               ],
             ),
           ),
@@ -200,9 +222,9 @@ class InteractionScreen extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF1E1C14), // Dark yellowish brown
+        color: Colors.yellow.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.orange.withOpacity(0.3)),
+        border: Border.all(color: Colors.yellow.withValues(alpha: 0.3)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -224,26 +246,30 @@ class InteractionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton() {
+  Widget _buildStartButton(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 60,
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      child: ElevatedButton.icon(
-        onPressed: () {},
-        style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFC6102E),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
+      color: Theme.of(context).colorScheme.surface,
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
+      child: SizedBox(
+        width: double.infinity,
+        height: 60,
+        child: ElevatedButton.icon(
+          onPressed: () {},
+          style: ElevatedButton.styleFrom(
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            elevation: 0,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
           ),
-        ),
-        icon: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
-        label: const Text(
-          "START INTERACTION",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 18,
-            fontWeight: FontWeight.w900,
+          icon: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
+          label: const Text(
+            "START INTERACTION",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
