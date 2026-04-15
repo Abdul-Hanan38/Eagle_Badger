@@ -12,6 +12,7 @@ import 'package:eagle_badger/screens/permission_screen.dart';
 import 'package:eagle_badger/screens/report.dart';
 import 'package:eagle_badger/screens/survey.dart';
 import 'package:eagle_badger/screens/tally.dart';
+import 'package:eagle_badger/screens/voter_profiling_screen.dart';
 import 'package:eagle_badger/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -52,6 +53,7 @@ class MyApp extends StatelessWidget {
         '/finalize': (context) => const FinalizeScreen(),
         '/dailyRoute': (context) => const AiDailyRouteScreen(),
         '/localPulse': (context) => const LocalPulseScreen(),
+        '/voterProfiling': (context) => const VoterProfilingScreen(),
       },
     );
   }

@@ -254,7 +254,9 @@ class FieldSurveyScreen extends StatelessWidget {
         width: double.infinity,
         height: 60,
         child: ElevatedButton.icon(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.pushNamed(context, '/voterProfiling');
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: Theme.of(context).colorScheme.primary,
             elevation: 0,

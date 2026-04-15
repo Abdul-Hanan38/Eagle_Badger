@@ -36,6 +36,11 @@ class AppTheme {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+          bodyLarge: const TextStyle(
+            fontSize: 16,
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+          ),
           bodyMedium: const TextStyle(fontSize: 14, color: greyText),
           bodySmall: const TextStyle(fontSize: 12, color: greyText),
           labelLarge: const TextStyle(

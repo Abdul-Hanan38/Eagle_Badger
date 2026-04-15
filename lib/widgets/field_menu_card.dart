@@ -53,11 +53,11 @@ class FieldMenuCard extends StatelessWidget {
             (entry) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: GestureDetector(
-                onTap: entry.value, // This triggers the specific function
+                onTap: entry.value,
                 child: Row(
                   children: [
                     Text(
-                      entry.key, // The label (e.g., "CANVASSING")
+                      entry.key,
                       style: const TextStyle(
                         color: Colors.white,
                         fontSize: 12,
