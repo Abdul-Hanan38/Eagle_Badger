@@ -272,42 +272,50 @@ class DashboardScreen extends StatelessWidget {
 
               // --- CIRCULAR PROGRESS GRAPH ---
               Center(
-                child: Stack(
-                  alignment: Alignment.center,
-                  children: [
-                    SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: CircularProgressIndicator(
-                        value: progressPercent,
-                        strokeWidth: 12,
-                        backgroundColor: Colors.black,
-                        valueColor: AlwaysStoppedAnimation<Color>(
-                          Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ),
-                    ),
-                    Column(
+                child: TweenAnimationBuilder<double>(
+                  tween: Tween<double>(begin: 0.0, end: progressPercent),
+                  duration: const Duration(milliseconds: 1500),
+                  curve: Curves.easeOutCubic,
+                  builder: (context, value, child) {
+                    return Stack(
+                      alignment: Alignment.center,
                       children: [
-                        Text(
-                          "${(progressPercent * 100).toInt()}%",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontSize: 34,
-                            fontWeight: FontWeight.bold,
+                        SizedBox(
+                          height: 150,
+                          width: 150,
+                          child: CircularProgressIndicator(
+                            value: value,
+                            strokeWidth: 12,
+                            backgroundColor: Colors.black,
+                            valueColor: AlwaysStoppedAnimation<Color>(
+                              Theme.of(context).colorScheme.onSurface,
+                            ),
                           ),
                         ),
-                        Text(
-                          "Complete",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "${(value * 100).toInt()}%",
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onSurface,
+                                fontSize: 34,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              "Complete",
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontSize: 12,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
                         ),
                       ],
-                    ),
-                  ],
+                    );
+                  },
                 ),
               ),
 

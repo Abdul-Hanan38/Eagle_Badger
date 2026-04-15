@@ -88,17 +88,17 @@ class OtherConcernTile extends StatelessWidget {
                 color: Color(0xFF381A1A),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.more_horiz,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 size: 20,
               ),
             ),
             const SizedBox(width: 12),
-            const Text(
+            Text(
               "Other Concern",
               style: TextStyle(
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onSurface,
                 fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
