@@ -1,3 +1,6 @@
+import 'package:eagle_badger/widgets/fill_selection_card.dart';
+import 'package:eagle_badger/widgets/grid_selection_card.dart';
+import 'package:eagle_badger/widgets/selection_card.dart';
 import 'package:flutter/material.dart';
 import 'survey_step_layout.dart';
 
@@ -155,15 +158,13 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                 "Do you intent to vote in the upcoming presidential election?",
             content: Column(
               children: [
-                _buildSelectionCard(
-                  context,
+                SelectionCard(
                   label: "Yes",
                   subLabel: "Selected",
                   isSelected: _intentChoice == "Yes",
                   onTap: () => setState(() => _intentChoice = "Yes"),
                 ),
-                _buildSelectionCard(
-                  context,
+                SelectionCard(
                   label: "No",
                   subLabel: "Uncommitted",
                   isSelected: _intentChoice == "No",
@@ -178,15 +179,13 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
             description: "Select the profile based on historical data.",
             content: Column(
               children: [
-                _buildSelectionCard2(
-                  context,
+                FillSelectionCard(
                   label: "Yes",
                   isSelected: _patternChoice == "Yes",
                   icon: Icons.check_circle,
                   onTap: () => setState(() => _patternChoice = "Yes"),
                 ),
-                _buildSelectionCard2(
-                  context,
+                FillSelectionCard(
                   label: "No",
                   isSelected: _patternChoice == "No",
                   icon: Icons.cancel_rounded,
@@ -202,15 +201,13 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                 "Verify if the voters have their Permanent Voter Card on hand.",
             content: Column(
               children: [
-                _buildSelectionCard2(
-                  context,
+                FillSelectionCard(
                   label: "Yes",
                   isSelected: _pvcChoice == "Yes",
                   icon: Icons.check_circle,
                   onTap: () => setState(() => _pvcChoice = "Yes"),
                 ),
-                _buildSelectionCard2(
-                  context,
+                FillSelectionCard(
                   label: "No",
                   isSelected: _pvcChoice == "No",
                   icon: Icons.cancel_rounded,
@@ -233,28 +230,28 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                     mainAxisSpacing: 16,
                     childAspectRatio: 0.9,
                     children: [
-                      _buildGridOption(
+                      GridSelectionCard(
                         label: "Economy",
                         icon: Icons.map,
                         isSelected: _selectedConcern == "Economy",
                         onTap: () =>
                             setState(() => _selectedConcern = "Economy"),
                       ),
-                      _buildGridOption(
+                      GridSelectionCard(
                         label: "Electricity",
                         icon: Icons.lightbulb,
                         isSelected: _selectedConcern == "Electricity",
                         onTap: () =>
                             setState(() => _selectedConcern = "Electricity"),
                       ),
-                      _buildGridOption(
+                      GridSelectionCard(
                         label: "Security",
                         icon: Icons.hub,
                         isSelected: _selectedConcern == "Security",
                         onTap: () =>
                             setState(() => _selectedConcern = "Security"),
                       ),
-                      _buildGridOption(
+                      GridSelectionCard(
                         label: "Corruption",
                         icon: Icons.balance,
                         isSelected: _selectedConcern == "Corruption",
@@ -264,7 +261,7 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                     ],
                   ),
                   const SizedBox(height: 20),
-                  _buildOtherConcernTile(
+                  OtherConcernTile(
                     isSelected: _selectedConcern == "Other",
                     onTap: () => setState(() => _selectedConcern = "Other"),
                   ),
@@ -283,26 +280,22 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
               mainAxisSpacing: 16,
               childAspectRatio: 1.0,
               children: [
-                _buildPartyOption(
-                  context,
+                FillGridCard(
                   label: "APC",
                   isSelected: _selectedParty == "APC",
                   onTap: () => setState(() => _selectedParty = "APC"),
                 ),
-                _buildPartyOption(
-                  context,
+                FillGridCard(
                   label: "PDP",
                   isSelected: _selectedParty == "PDP",
                   onTap: () => setState(() => _selectedParty = "PDP"),
                 ),
-                _buildPartyOption(
-                  context,
+                FillGridCard(
                   label: "ADC",
                   isSelected: _selectedParty == "ADC",
                   onTap: () => setState(() => _selectedParty = "ADC"),
                 ),
-                _buildPartyOption(
-                  context,
+                FillGridCard(
                   label: "LP",
                   isSelected: _selectedParty == "LP",
                   onTap: () => setState(() => _selectedParty = "LP"),
@@ -430,193 +423,6 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSelectionCard(
-    BuildContext context, {
-    required String label,
-    required String subLabel,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(25),
-        margin: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 243, 150, 166),
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.white10,
-            width: 2,
-          ),
-        ),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    subLabel,
-                    style: TextStyle(
-                      color: isSelected ? const Color(0xFFC6102E) : Colors.grey,
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    label,
-                    style: const TextStyle(
-                      color: Colors.white,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(height: 40),
-                ],
-              ),
-            ),
-            if (isSelected)
-              const CircleAvatar(
-                backgroundColor: Color(0xFFC6102E),
-                radius: 20,
-                child: Icon(Icons.check_circle, color: Colors.white, size: 30),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildSelectionCard2(
-    BuildContext context, {
-    required String label,
-    required bool isSelected,
-    required IconData icon,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 60),
-        margin: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          color: isSelected
-              ? Theme.of(context).colorScheme.primary
-              : Theme.of(context).colorScheme.onSecondaryContainer,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Column(
-          children: [
-            Icon(icon, color: Colors.white, size: 26),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildGridOption({
-    required String label,
-    required IconData icon,
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 243, 150, 166),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.white10,
-            width: 1.5,
-          ),
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(
-                color: Color(0xFF381A1A),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(icon, color: Colors.white, size: 28),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildOtherConcernTile({
-    required bool isSelected,
-    required VoidCallback onTap,
-  }) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 18),
-        decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 243, 150, 166),
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.white10,
-            width: 1.5,
-          ),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Color(0xFF381A1A),
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                Icons.more_horiz,
-                color: Colors.white,
-                size: 20,
-              ),
-            ),
-            const SizedBox(width: 12),
-            const Text(
-              "Other Concern",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 14,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ],
         ),
       ),
     );
