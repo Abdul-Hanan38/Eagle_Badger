@@ -106,7 +106,8 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     icon: Symbols.person_pin_circle,
                     backgroundColor: Color(0xFF7D2D36),
                     actions: {
-                      "SURVEY": () => Navigator.pushNamed(context, '/survey'),
+                      "SURVEY": () =>
+                          Navigator.pushNamed(context, '/posterReport'),
                     },
                   ),
                   FieldMenuCard(

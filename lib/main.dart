@@ -1,6 +1,8 @@
 import 'package:eagle_badger/screens/daily_route.dart';
 import 'package:eagle_badger/screens/dashboard.dart';
 import 'package:eagle_badger/screens/contact.dart';
+import 'package:eagle_badger/screens/field_report_screen.dart';
+import 'package:eagle_badger/screens/poster_report_screen.dart';
 import 'package:eagle_badger/screens/field_work_menu.dart';
 import 'package:eagle_badger/screens/finalize.dart';
 import 'package:eagle_badger/screens/help_screen.dart';
@@ -54,6 +56,8 @@ class MyApp extends StatelessWidget {
         '/dailyRoute': (context) => const AiDailyRouteScreen(),
         '/localPulse': (context) => const LocalPulseScreen(),
         '/voterProfiling': (context) => const VoterProfilingScreen(),
+        '/posterReport': (context) => const PosterReportScreen(),
+        '/fieldReport': (context) => const FieldReportScreen(),
       },
     );
   }

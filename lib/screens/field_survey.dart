@@ -11,7 +11,6 @@ class FieldSurveyScreen extends StatelessWidget {
       body: SafeArea(
         child: Column(
           children: [
-            // --- CUSTOM APP BAR ---
             _buildAppBar(context),
 
             Padding(

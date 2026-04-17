@@ -40,6 +40,8 @@ dependencies:
   pinput: ^6.0.2
   font_awesome_flutter: ^11.0.0
   material_symbols_icons: ^4.2928.1
+  camera: ^0.12.0+1
+  permission_handler: ^12.0.1
 
 dev_dependencies:
   flutter_test:
