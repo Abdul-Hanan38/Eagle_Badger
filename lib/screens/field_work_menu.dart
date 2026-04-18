@@ -131,7 +131,8 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     icon: Symbols.ballot,
                     backgroundColor: Color(0xFF8B5A34),
                     actions: {
-                      "TALLY": () => Navigator.pushNamed(context, '/tally'),
+                      "TALLY": () =>
+                          Navigator.pushNamed(context, '/activityFlow'),
                     },
                   ),
                   FieldMenuCard(

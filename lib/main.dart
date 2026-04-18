@@ -1,3 +1,4 @@
+import 'package:eagle_badger/screens/activity_flow.dart';
 import 'package:eagle_badger/screens/daily_route.dart';
 import 'package:eagle_badger/screens/dashboard.dart';
 import 'package:eagle_badger/screens/contact.dart';
@@ -58,6 +59,7 @@ class MyApp extends StatelessWidget {
         '/voterProfiling': (context) => const VoterProfilingScreen(),
         '/posterReport': (context) => const PosterReportScreen(),
         '/fieldReport': (context) => const FieldReportScreen(),
+        '/activityFlow': (context) => const ActivityFlowScreen(),
       },
     );
   }
