@@ -124,7 +124,8 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     icon: Symbols.accessibility_new,
                     backgroundColor: Color(0xFF4E5441),
                     actions: {
-                      "REPORT": () => Navigator.pushNamed(context, '/report'),
+                      "REPORT": () =>
+                          Navigator.pushNamed(context, '/reportIncident'),
                     },
                   ),
                   FieldMenuCard(

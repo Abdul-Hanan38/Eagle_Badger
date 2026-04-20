@@ -1,3 +1,4 @@
+import 'package:eagle_badger/screens/report/report_incident.dart';
 import 'package:eagle_badger/screens/report/review_checkin.dart';
 import 'package:eagle_badger/screens/tally/activity_flow.dart';
 import 'package:eagle_badger/screens/contact/bloc_details.dart';
@@ -56,6 +57,7 @@ class MyApp extends StatelessWidget {
         '/blocDetails': (context) => const BlocDetailsScreen(),
         '/engagementMemo': (context) => const EngagementMemoScreen(),
         '/reviewCheckIn': (context) => const ReviewCheckInScreen(),
+        '/reportIncident': (context) => const ReportIncidentScreen(),
       },
     );
   }
