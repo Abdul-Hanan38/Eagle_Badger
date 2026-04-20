@@ -42,7 +42,6 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
     _showSuccessDialog();
   }
 
-  // NEW: Success Dialog with Checkmark Animation
   void _showSuccessDialog() {
     showDialog(
       context: context,
@@ -73,7 +72,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
             child: TextButton(
               onPressed: () {
                 Navigator.pop(context); // Close Dialog
-                Navigator.pop(context); // Return to Dashboard/Activity Screen
+                Navigator.pushReplacementNamed(context, '/reviewCheckIn');
               },
               child: const Text(
                 "Done",

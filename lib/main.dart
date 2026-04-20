@@ -1,3 +1,4 @@
+import 'package:eagle_badger/screens/report/review_checkin.dart';
 import 'package:eagle_badger/screens/tally/activity_flow.dart';
 import 'package:eagle_badger/screens/contact/bloc_details.dart';
 import 'package:eagle_badger/screens/canvassing/daily_route.dart';
@@ -54,6 +55,7 @@ class MyApp extends StatelessWidget {
         '/socioCulture': (context) => const SocioCulturalBlocsScreen(),
         '/blocDetails': (context) => const BlocDetailsScreen(),
         '/engagementMemo': (context) => const EngagementMemoScreen(),
+        '/reviewCheckIn': (context) => const ReviewCheckInScreen(),
       },
     );
   }
