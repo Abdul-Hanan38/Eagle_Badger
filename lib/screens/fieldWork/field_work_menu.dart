@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
-import '../widgets/field_menu_card.dart';
+import '../../widgets/field_menu_card.dart';
 
 class FieldWorkMenuScreen extends StatelessWidget {
   const FieldWorkMenuScreen({super.key});
@@ -115,7 +115,8 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     icon: Symbols.groups,
                     backgroundColor: Color(0xFF2D1B1B),
                     actions: {
-                      "CONTACT": () => Navigator.pushNamed(context, '/contact'),
+                      "CONTACT": () =>
+                          Navigator.pushNamed(context, '/socioCulture'),
                     },
                   ),
                   FieldMenuCard(

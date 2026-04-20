@@ -16,7 +16,6 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
   List<Map<String, dynamic>> savedInteractions = [];
   Map<String, dynamic> surveyData = {};
 
-  // Helper to determine the AppBar title based on current step
   String _getAppBarTitle() {
     switch (_currentStep) {
       case 1:
@@ -253,12 +252,25 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
   Widget _buildBottomNav() {
     return BottomNavigationBar(
       currentIndex: 1,
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      backgroundColor: Theme.of(context).colorScheme.tertiary,
       selectedItemColor: Theme.of(context).colorScheme.primary,
       unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        if (index != 1) Navigator.pop(context);
+        switch (index) {
+          case 0:
+            Navigator.pushReplacementNamed(context, '/fieldWork');
+            break;
+          case 1:
+            // Remain on the current reporting flow
+            break;
+          case 2:
+            Navigator.pushReplacementNamed(context, '/fieldWork');
+            break;
+          case 3:
+            Navigator.pushReplacementNamed(context, '/fieldWork');
+            break;
+        }
       },
       items: const [
         BottomNavigationBarItem(

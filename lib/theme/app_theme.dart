@@ -5,7 +5,7 @@ class AppTheme {
   static const Color brandRed = Color(0xFFC6102E);
   static const Color darkBg = Color(0xFF251111);
   static const Color cardColor = Color(0xFF1A0F0F);
-  static const Color greyText = Color(0xFF9CA3AF);
+  static const Color greyText = Color.fromARGB(148, 95, 101, 111);
   static const Color greyContainer = Color(0xFF1A222D);
 
   static ThemeData get darkTheme {
@@ -17,6 +17,7 @@ class AppTheme {
         primary: brandRed,
         primaryContainer: const Color(0xFF381A1A),
         onPrimary: Color.fromARGB(255, 185, 157, 161),
+        primaryFixed: greyText,
         onSecondaryContainer: greyContainer,
         onSecondaryFixed: const Color.fromARGB(255, 39, 28, 29),
         onSecondaryFixedVariant: Color.fromARGB(255, 66, 52, 54),
@@ -24,6 +25,7 @@ class AppTheme {
         secondary: const Color(0xFF2D2D2D),
         secondaryContainer: cardColor,
         onSurface: Colors.white,
+        tertiary: Color.fromARGB(255, 38, 28, 28),
         tertiaryContainer: const Color.fromARGB(255, 39, 28, 29),
       ),
       textTheme: GoogleFonts.publicSansTextTheme(

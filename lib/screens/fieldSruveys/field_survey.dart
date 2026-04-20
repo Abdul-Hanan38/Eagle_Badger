@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/resident_tile.dart';
+import 'resident_tile.dart';
 
 class FieldSurveyScreen extends StatelessWidget {
   const FieldSurveyScreen({super.key});

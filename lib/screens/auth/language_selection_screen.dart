@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/language_card.dart';
+import '../../widgets/language_card.dart';
 
 class LanguageSelectionScreen extends StatefulWidget {
   const LanguageSelectionScreen({super.key});
@@ -50,7 +50,7 @@ class _LanguageSelectionScreenState extends State<LanguageSelectionScreen> {
             ),
             actions: [
               TextButton(
-                onPressed: () => Navigator.of(context).pushNamed('/help'),
+                onPressed: () {},
                 child: Text(
                   'Help',
                   style: TextStyle(
