@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class ReviewCheckInScreen extends StatelessWidget {
   const ReviewCheckInScreen({super.key});
@@ -85,7 +84,7 @@ class ReviewCheckInScreen extends StatelessWidget {
             // Submit Button
             ElevatedButton(
               onPressed: () {
-                // Trigger your success dialog here
+                Navigator.pushNamed(context, '/resultSheet');
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: Theme.of(context).colorScheme.primary,

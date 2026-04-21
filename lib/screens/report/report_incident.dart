@@ -108,7 +108,10 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
     bool isSelected = _selectedCategory == title;
 
     return GestureDetector(
-      onTap: () => setState(() => _selectedCategory = title),
+      onTap: () => {
+        setState(() => _selectedCategory = title),
+        Navigator.pushNamed(context, '/evidenceCapture'),
+      },
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 16),
