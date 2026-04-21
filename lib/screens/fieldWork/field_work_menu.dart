@@ -142,8 +142,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                     icon: Symbols.sync_alt,
                     backgroundColor: Color(0xFF526D72),
                     actions: {
-                      "FINALIZE": () =>
-                          Navigator.pushNamed(context, '/finalize'),
+                      "FINALIZE": () => Navigator.pushNamed(context, '/queue'),
                     },
                   ),
                 ],

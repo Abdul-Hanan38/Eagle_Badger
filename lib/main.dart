@@ -1,3 +1,4 @@
+import 'package:eagle_badger/screens/finalize/queue.dart';
 import 'package:eagle_badger/screens/report/evidence_capture.dart';
 import 'package:eagle_badger/screens/report/report_incident.dart';
 import 'package:eagle_badger/screens/report/result_sheet.dart';
@@ -64,6 +65,7 @@ class MyApp extends StatelessWidget {
         '/evidenceCapture': (context) => const EvidenceCaptureScreen(),
         '/resultSheet': (context) => const ResultSheetUploadScreen(),
         '/resultVerification': (context) => const ResultVerificationScreen(),
+        '/queue': (context) => const QueueScreen(),
       },
     );
   }
