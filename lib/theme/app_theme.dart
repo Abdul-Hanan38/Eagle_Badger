@@ -40,6 +40,11 @@ class AppTheme {
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
+          titleSmall: const TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
           bodyLarge: const TextStyle(
             fontSize: 16,
             color: Colors.white,

@@ -40,7 +40,9 @@ class _EvidenceCaptureScreenState extends State<EvidenceCaptureScreen> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    if (_controller != null && _controller!.value.isInitialized) {
+      _controller?.dispose();
+    }
     super.dispose();
   }
 
@@ -61,7 +63,7 @@ class _EvidenceCaptureScreenState extends State<EvidenceCaptureScreen> {
         ),
         title: const Text(
           "Evidence Capture",
-          style: TextStyle(color: Colors.white, fontSize: 22),
+          style: TextStyle(color: Colors.white, fontSize: 18),
         ),
         centerTitle: true,
         actions: [
@@ -226,11 +228,8 @@ class _EvidenceCaptureScreenState extends State<EvidenceCaptureScreen> {
           ),
           GestureDetector(
             onTap: () async {
-              if (_isInitialized) {
+              if (_isInitialized && _controller != null) {
                 await _controller!.takePicture();
-                if (mounted) {
-                  Navigator.pushNamed(context, '/resultSheet');
-                }
               }
             },
             child: Container(
@@ -246,10 +245,16 @@ class _EvidenceCaptureScreenState extends State<EvidenceCaptureScreen> {
               ),
             ),
           ),
-          const CircleAvatar(
-            radius: 25,
-            backgroundColor: Colors.white10,
-            child: Icon(Icons.cached, color: Colors.white),
+          GestureDetector(
+            onTap: () async {
+              await Future.delayed(const Duration(milliseconds: 100));
+              if (mounted) Navigator.pushNamed(context, '/resultSheet');
+            },
+            child: const CircleAvatar(
+              radius: 25,
+              backgroundColor: Colors.white10,
+              child: Icon(Icons.cached, color: Colors.white),
+            ),
           ),
         ],
       ),

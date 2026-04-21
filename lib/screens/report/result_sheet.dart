@@ -39,7 +39,9 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    if (_controller != null && _controller!.value.isInitialized) {
+      _controller?.dispose();
+    }
     super.dispose();
   }
 
@@ -57,7 +59,7 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
                     child: CircularProgressIndicator(color: Color(0xFFC6102E)),
                   ),
           ),
-          Container(color: Colors.black.withValues(alpha: 0.4)),
+          Container(color: Colors.black.withOpacity(0.4)),
           SafeArea(
             child: Column(
               children: [
@@ -67,7 +69,7 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
                 const SizedBox(height: 20),
                 const Text(
                   "Hold steady...",
-                  style: TextStyle(color: Colors.white70),
+                  style: TextStyle(color: Colors.white70, fontSize: 13),
                 ),
                 const Spacer(),
                 _buildCaptureButton(),
@@ -126,7 +128,7 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFC6102E).withValues(alpha: 0.2),
+            color: const Color(0xFFC6102E).withOpacity(0.2),
             borderRadius: BorderRadius.circular(20),
           ),
           child: const Text(
@@ -147,9 +149,10 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
       padding: const EdgeInsets.only(bottom: 30),
       child: GestureDetector(
         onTap: () async {
-          if (_isInitialized) {
+          if (_isInitialized && _controller != null) {
             await _controller!.takePicture();
-            debugPrint("Document Clicked");
+            await Future.delayed(const Duration(milliseconds: 100));
+            if (mounted) Navigator.pushNamed(context, '/resultVerification');
           }
         },
         child: Container(
@@ -173,8 +176,8 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
 
   Widget _buildBottomNavMirror() {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12),
-      color: Theme.of(context).colorScheme.onSecondary,
+      padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+      color: Theme.of(context).colorScheme.surface,
       child: const Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
