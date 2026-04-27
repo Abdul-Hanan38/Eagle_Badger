@@ -168,40 +168,45 @@ class SocioCulturalBlocsScreen extends StatelessWidget {
   }
 
   Widget _buildBottomNav(BuildContext context) {
-    return BottomNavigationBar(
-      currentIndex: 1,
-      backgroundColor: Theme.of(context).colorScheme.tertiary,
-      selectedItemColor: Theme.of(context).colorScheme.primary,
-      unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
-      type: BottomNavigationBarType.fixed,
-      onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
-          case 1:
-            // Remain on the current reporting flow
-            break;
-          case 2:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
-          case 3:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
-        }
-      },
-      items: const [
-        BottomNavigationBarItem(
-          icon: Icon(Icons.grid_view),
-          label: "Dashboard",
-        ),
-        BottomNavigationBarItem(icon: Icon(Icons.analytics), label: "Activity"),
-        BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
-        BottomNavigationBarItem(
-          icon: Icon(Icons.notifications),
-          label: "Alerts",
-        ),
-      ],
+    return SafeArea(
+      child: BottomNavigationBar(
+        currentIndex: 1,
+        backgroundColor: Theme.of(context).colorScheme.tertiary,
+        selectedItemColor: Theme.of(context).colorScheme.primary,
+        unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
+        type: BottomNavigationBarType.fixed,
+        onTap: (index) {
+          switch (index) {
+            case 0:
+              Navigator.pushReplacementNamed(context, '/fieldWork');
+              break;
+            case 1:
+              // Remain on the current reporting flow
+              break;
+            case 2:
+              Navigator.pushReplacementNamed(context, '/fieldWork');
+              break;
+            case 3:
+              Navigator.pushReplacementNamed(context, '/fieldWork');
+              break;
+          }
+        },
+        items: const [
+          BottomNavigationBarItem(
+            icon: Icon(Icons.grid_view),
+            label: "Dashboard",
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.analytics),
+            label: "Activity",
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.map), label: "Map"),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.notifications),
+            label: "Alerts",
+          ),
+        ],
+      ),
     );
   }
 }

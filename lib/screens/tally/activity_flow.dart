@@ -438,7 +438,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
           border: Border.all(
             color: isSelected
                 ? Theme.of(context).colorScheme.primary
-                : Theme.of(context).colorScheme.onTertiaryFixed,
+                : Theme.of(context).colorScheme.tertiaryFixedDim,
             width: 2,
           ),
         ),
@@ -521,8 +521,8 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
                   : context.screenHeight * 0.1,
               decoration: BoxDecoration(
                 color: isSelected
-                    ? Theme.of(context).colorScheme.tertiaryContainer
-                    : Theme.of(context).colorScheme.primaryContainer,
+                    ? Theme.of(context).colorScheme.primaryContainer
+                    : Theme.of(context).colorScheme.onSecondaryFixedVariant,
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(

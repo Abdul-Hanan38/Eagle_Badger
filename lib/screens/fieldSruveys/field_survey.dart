@@ -96,12 +96,14 @@ class FieldSurveyScreen extends StatelessWidget {
         ),
       ),
       // --- Navigation BUTTON ---
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15),
-        child: CustomButton(
-          title: 'Start Interaction',
-          leftIcon: Icons.play_arrow,
-          onPressed: () => Navigator.pushNamed(context, '/voterProfiling'),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15),
+          child: CustomButton(
+            title: 'Start Interaction',
+            leftIcon: Icons.play_arrow,
+            onPressed: () => Navigator.pushNamed(context, '/voterProfiling'),
+          ),
         ),
       ),
     );

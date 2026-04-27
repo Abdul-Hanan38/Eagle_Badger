@@ -22,9 +22,9 @@ class _BlocDetailsScreenState extends State<BlocDetailsScreen> {
         title: 'Bloc Details',
         onBackTap: () => Navigator.pop(context),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
           child: Column(
             children: [
               // Header Image and Name

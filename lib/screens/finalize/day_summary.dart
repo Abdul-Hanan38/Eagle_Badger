@@ -15,16 +15,18 @@ class DaySummaryScreen extends StatelessWidget {
         onBackTap: () => Navigator.pop(context),
         backIcon: Icons.close,
       ),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: CustomButton(
-          title: 'Complete Day Wrap-up',
-          onPressed: () => Navigator.pushNamed(context, '/rewards'),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: CustomButton(
+            title: 'Complete Day Wrap-up',
+            onPressed: () => Navigator.pushNamed(context, '/rewards'),
+          ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
               SizedBox(height: context.isSmall ? 10 : 20),

@@ -13,11 +13,11 @@ class ReviewCheckInScreen extends StatelessWidget {
         title: 'Review Check-In',
         onBackTap: () => Navigator.pop(context),
       ),
-      body: SingleChildScrollView(
-        padding: context.isSmall
-            ? EdgeInsets.all(20)
-            : EdgeInsets.symmetric(horizontal: 24),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: context.isSmall
+              ? EdgeInsets.all(20)
+              : EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

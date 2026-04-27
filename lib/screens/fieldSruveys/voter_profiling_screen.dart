@@ -432,23 +432,26 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
   }
 
   Widget _buildBottomButton(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
-      color: Theme.of(context).colorScheme.surface,
-      child: SizedBox(
-        height: context.isSmall ? 50 : 56,
-        width: double.infinity,
-        child: ElevatedButton(
-          onPressed: _onContinue,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+    return SafeArea(
+      top: false,
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
+        color: Theme.of(context).colorScheme.surface,
+        child: SizedBox(
+          height: context.isSmall ? 50 : 56,
+          width: double.infinity,
+          child: ElevatedButton(
+            onPressed: _onContinue,
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
-          ),
-          child: Text(
-            _currentStep == _totalSteps ? "Save Interaction" : "Continue",
-            style: Theme.of(context).textTheme.labelMedium,
+            child: Text(
+              _currentStep == _totalSteps ? "Save Interaction" : "Continue",
+              style: Theme.of(context).textTheme.labelMedium,
+            ),
           ),
         ),
       ),

@@ -185,17 +185,19 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
   }
 
   Widget _buildBottomNavMirror() {
-    return Container(
-      padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
-      color: Theme.of(context).colorScheme.surface,
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _NavIcon(Icons.home, "Home"),
-          _NavIcon(Icons.cloud_upload, "Upload", isActive: true),
-          _NavIcon(Icons.assignment, "Reports"),
-          _NavIcon(Icons.person, "Profile"),
-        ],
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.fromLTRB(0, 20, 0, 30),
+        color: Theme.of(context).colorScheme.surface,
+        child: const Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            _NavIcon(Icons.home, "Home"),
+            _NavIcon(Icons.cloud_upload, "Upload", isActive: true),
+            _NavIcon(Icons.assignment, "Reports"),
+            _NavIcon(Icons.person, "Profile"),
+          ],
+        ),
       ),
     );
   }

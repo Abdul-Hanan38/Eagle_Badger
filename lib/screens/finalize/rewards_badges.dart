@@ -18,18 +18,20 @@ class RewardsBadgesScreen extends StatelessWidget {
         onActionTap: () {},
       ),
       // Fixed bottom button
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: CustomButton(
-          title: 'Share Achivements',
-          leftIcon: Icons.share,
-          onPressed: () =>
-              Navigator.pushReplacementNamed(context, '/fieldWork'),
+      bottomNavigationBar: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: CustomButton(
+            title: 'Share Achivements',
+            leftIcon: Icons.share,
+            onPressed: () =>
+                Navigator.pushReplacementNamed(context, '/fieldWork'),
+          ),
         ),
       ),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: SafeArea(
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
           child: Column(
             children: [
               const SizedBox(height: 20),
