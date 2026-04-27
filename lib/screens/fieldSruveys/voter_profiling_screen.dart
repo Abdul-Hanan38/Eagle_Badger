@@ -82,8 +82,7 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
           Center(
             child: TextButton(
               onPressed: () {
-                Navigator.pop(context);
-                Navigator.pop(context);
+                Navigator.popUntil(context, ModalRoute.withName('/fieldWork'));
               },
               child: const Text(
                 "Done",

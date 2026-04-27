@@ -109,7 +109,10 @@ class ResultVerificationScreen extends StatelessWidget {
               // 5. Confirm Button
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/fieldWork');
+                  Navigator.popUntil(
+                    context,
+                    ModalRoute.withName('/fieldWork'),
+                  );
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Theme.of(context).colorScheme.primary,

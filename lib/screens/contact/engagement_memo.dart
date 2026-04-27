@@ -44,10 +44,10 @@ class _EngagementMemoScreenState extends State<EngagementMemoScreen> {
             child: TextButton(
               onPressed: () {
                 Navigator.pop(context);
-                Navigator.pushReplacementNamed(
+                Navigator.popUntil(
                   context,
-                  '/fieldWork',
-                ); // Return to Menu
+                  ModalRoute.withName('/fieldWork'),
+                ); // Return to Field Work Menu
               },
               child: const Text(
                 "Done",
@@ -292,7 +292,7 @@ class _EngagementMemoScreenState extends State<EngagementMemoScreen> {
   }
 }
 
-// Add the painter class at the bottom
+// Painter Class
 class CheckmarkPainter extends CustomPainter {
   final double progress;
   CheckmarkPainter(this.progress);

@@ -67,7 +67,10 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushReplacementNamed(context, '/fieldWork');
+                        Navigator.popUntil(
+                          context,
+                          ModalRoute.withName('/fieldWork'),
+                        );
                       },
                       child: _buildActionButton(
                         Icons.save,

@@ -25,7 +25,7 @@ class GridSelectionCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected
-                ? Theme.of(context).colorScheme.onPrimary
+                ? Theme.of(context).colorScheme.primary
                 : Theme.of(context).colorScheme.tertiaryFixedDim,
             width: 1.5,
           ),
@@ -34,7 +34,9 @@ class GridSelectionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: context.isSmall ? EdgeInsets.all(6) : EdgeInsets.all(12),
+              padding: context.isSmall
+                  ? EdgeInsets.all(12)
+                  : EdgeInsets.all(16),
               decoration: BoxDecoration(
                 color: Theme.of(context).colorScheme.onSecondaryFixed,
                 shape: BoxShape.circle,

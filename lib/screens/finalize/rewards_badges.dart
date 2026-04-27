@@ -25,7 +25,7 @@ class RewardsBadgesScreen extends StatelessWidget {
             title: 'Share Achivements',
             leftIcon: Icons.share,
             onPressed: () =>
-                Navigator.pushReplacementNamed(context, '/fieldWork'),
+                Navigator.popUntil(context, ModalRoute.withName('/fieldWork')),
           ),
         ),
       ),

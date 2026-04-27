@@ -449,7 +449,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
               radius: context.isSmall ? 20 : 30,
               backgroundColor: isSelected
                   ? Theme.of(context).colorScheme.primary
-                  : Theme.of(context).colorScheme.onTertiaryFixed,
+                  : Theme.of(context).colorScheme.tertiaryFixedDim,
               child: Icon(
                 icon,
                 color: Theme.of(context).colorScheme.onSurface,

@@ -46,6 +46,58 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
     });
   }
 
+  // Implementation based on engagement_memo.dart
+  void _showSuccessDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) => AlertDialog(
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: TweenAnimationBuilder<double>(
+          duration: const Duration(milliseconds: 1000),
+          tween: Tween(begin: 0.0, end: 1.0),
+          curve: Curves.easeInOutQuart,
+          builder: (context, value, child) {
+            return Center(
+              child: CustomPaint(
+                size: const Size(80, 80),
+                painter: CheckmarkPainter(
+                  value,
+                ), // Custom painter for animated check
+              ),
+            );
+          },
+        ),
+        content: const Text(
+          "Survey Data Saved Successfully!",
+          textAlign: TextAlign.center,
+          style: TextStyle(color: Colors.white, fontSize: 16),
+        ),
+        actions: [
+          Center(
+            child: TextButton(
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName('/fieldWork'),
+                ); // Shift to fieldwork screen
+              },
+              child: const Text(
+                "Done",
+                style: TextStyle(
+                  color: Color(0xFFC6102E),
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18,
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _finishSurvey() {
     setState(() {
       savedInteractions.add({
@@ -53,7 +105,7 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
         'timestamp': DateTime.now().toString(),
       });
     });
-    Navigator.pop(context);
+    _showSuccessDialog(); // Trigger the dialog
   }
 
   @override
@@ -218,8 +270,8 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
                       child: Center(
                         child: Text(
                           opt,
-                          style: const TextStyle(
-                            color: Colors.white,
+                          style: TextStyle(
+                            color: Theme.of(context).colorScheme.onSurface,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -242,18 +294,8 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
       unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
       type: BottomNavigationBarType.fixed,
       onTap: (index) {
-        switch (index) {
-          case 0:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
-          case 1:
-            break;
-          case 2:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
-          case 3:
-            Navigator.pushReplacementNamed(context, '/fieldWork');
-            break;
+        if (index != 1) {
+          Navigator.pushReplacementNamed(context, '/fieldWork');
         }
       },
       items: const [
@@ -270,4 +312,34 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
       ],
     );
   }
+}
+
+// Painter class for animated checkmark
+class CheckmarkPainter extends CustomPainter {
+  final double progress;
+  CheckmarkPainter(this.progress);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = Colors.green
+      ..strokeWidth = 6.0
+      ..strokeCap = StrokeCap.round
+      ..style = PaintingStyle.stroke;
+
+    final path = Path();
+    path.moveTo(size.width * 0.2, size.height * 0.5);
+    path.lineTo(size.width * 0.45, size.height * 0.7);
+    path.lineTo(size.width * 0.8, size.height * 0.3);
+
+    final metrics = path.computeMetrics();
+    for (final metric in metrics) {
+      final extractPath = metric.extractPath(0.0, metric.length * progress);
+      canvas.drawPath(extractPath, paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CheckmarkPainter oldDelegate) =>
+      oldDelegate.progress != progress;
 }
