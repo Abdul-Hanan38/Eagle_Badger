@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class EngagementMemoScreen extends StatefulWidget {
@@ -17,7 +19,7 @@ class _EngagementMemoScreenState extends State<EngagementMemoScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF251111),
+        backgroundColor: Theme.of(context).colorScheme.surface,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 1000),
@@ -66,161 +68,159 @@ class _EngagementMemoScreenState extends State<EngagementMemoScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "Engagement Memo",
-          style: TextStyle(color: Colors.white, fontSize: 22),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'Engagement Memo',
+        onBackTap: () => Navigator.pop(context),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Influencer Profile",
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Row(
-              children: [
-                const CircleAvatar(
-                  radius: 25,
-                  backgroundImage: AssetImage('assets/images/avator3.png'),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Influencer Profile",
+                style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
-                const SizedBox(width: 15),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      "Marcus Thorne",
-                      style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                        color: Theme.of(context).colorScheme.onSurface,
-                      ),
-                    ),
-                    Text(
-                      "Community Leader • District 4",
-                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: Theme.of(context).colorScheme.onPrimary,
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-            const SizedBox(height: 30),
-            _buildBinaryToggle(
-              "Visit Confirmed?",
-              isVisitConfirmed,
-              (val) => setState(() => isVisitConfirmed = val),
-            ),
-            const SizedBox(height: 20),
-            _buildBinaryToggle(
-              "Endorsement Secured?",
-              isEndorsementSecured,
-              (val) => setState(() => isEndorsementSecured = val),
-            ),
-            const SizedBox(height: 30),
-            const Text(
-              "Notes / Voice Memo",
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
               ),
-            ),
-            const SizedBox(height: 12),
-            Container(
-              padding: const EdgeInsets.all(30),
-              decoration: BoxDecoration(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Column(
+              const SizedBox(height: 12),
+              Row(
                 children: [
-                  GestureDetector(
-                    onTap: () => setState(() => isRecording = !isRecording),
-                    child: CircleAvatar(
-                      radius: 40,
-                      backgroundColor: isRecording
-                          ? Theme.of(context).colorScheme.primary
-                          : Theme.of(context).colorScheme.onSecondaryFixed,
-                      child: Icon(
-                        Icons.mic,
-                        color: Theme.of(context).colorScheme.onSurface,
-                        size: 40,
-                      ),
-                    ),
+                  CircleAvatar(
+                    radius: context.isSmall ? 20 : 25,
+                    backgroundImage: AssetImage('assets/images/avator3.png'),
                   ),
-                  const SizedBox(height: 20),
-                  Text(
-                    "Tap to record field observations",
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  TextField(
-                    maxLines: 4,
-                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                      color: Theme.of(context).colorScheme.onSurface,
-                    ),
-                    decoration: InputDecoration(
-                      hintText:
-                          "Or type summary here... (e.g., Influencer mentioned concern about local infrastructure)",
-                      hintStyle: Theme.of(context).textTheme.bodyMedium!
-                          .copyWith(
-                            color: Theme.of(context).colorScheme.primaryFixed,
-                          ),
-                      filled: true,
-                      fillColor: Theme.of(context).colorScheme.onSecondaryFixed,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white10),
+                  const SizedBox(width: 15),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Marcus Thorne",
+                        style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+                          color: Theme.of(context).colorScheme.onSurface,
+                        ),
                       ),
-                      enabledBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: const BorderSide(color: Colors.white10),
+                      Text(
+                        "Community Leader • District 4",
+                        style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        ),
                       ),
-                    ),
+                    ],
                   ),
                 ],
               ),
-            ),
-            const SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                _showSuccessDialog(); // Trigger dialog instead of immediate nav
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                minimumSize: const Size(double.infinity, 60),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+              const SizedBox(height: 30),
+              _buildBinaryToggle(
+                "Visit Confirmed?",
+                isVisitConfirmed,
+                (val) => setState(() => isVisitConfirmed = val),
               ),
-              child: Text(
-                "Submit Intelligence Report",
-                style: Theme.of(context).textTheme.labelLarge!.copyWith(
+              const SizedBox(height: 20),
+              _buildBinaryToggle(
+                "Endorsement Secured?",
+                isEndorsementSecured,
+                (val) => setState(() => isEndorsementSecured = val),
+              ),
+              const SizedBox(height: 30),
+              Text(
+                "Notes / Voice Memo",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                   color: Theme.of(context).colorScheme.onSurface,
                   fontWeight: FontWeight.bold,
                 ),
               ),
-            ),
-          ],
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.all(30),
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Column(
+                  children: [
+                    GestureDetector(
+                      onTap: () => setState(() => isRecording = !isRecording),
+                      child: CircleAvatar(
+                        radius: 40,
+                        backgroundColor: isRecording
+                            ? Theme.of(context).colorScheme.primary
+                            : Theme.of(context).colorScheme.onSecondaryFixed,
+                        child: Icon(
+                          Icons.mic,
+                          color: Theme.of(context).colorScheme.onSurface,
+                          size: 40,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    Text(
+                      "Tap to record field observations",
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    TextField(
+                      maxLines: 4,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
+                      ),
+                      decoration: InputDecoration(
+                        hintText:
+                            "Or type summary here... (e.g., Influencer mentioned concern about local infrastructure)",
+                        hintStyle: Theme.of(context).textTheme.bodyMedium!
+                            .copyWith(
+                              color: Theme.of(context).colorScheme.primaryFixed,
+                            ),
+                        filled: true,
+                        fillColor: Theme.of(
+                          context,
+                        ).colorScheme.onSecondaryFixed,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.tertiaryFixedDim,
+                          ),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(
+                            color: Theme.of(
+                              context,
+                            ).colorScheme.tertiaryFixedDim,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  _showSuccessDialog(); // Trigger dialog instead of immediate nav
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  minimumSize: const Size(double.infinity, 60),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Submit Intelligence Report",
+                  style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onSurface,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

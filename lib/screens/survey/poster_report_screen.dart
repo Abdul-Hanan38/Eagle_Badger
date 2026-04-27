@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'field_report_screen.dart';
@@ -42,49 +44,50 @@ class _PosterReportScreenState extends State<PosterReportScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        title: const Text(
-          "Poster Report",
-          style: TextStyle(color: Colors.white, fontSize: 22),
-        ),
-        leading: const Icon(Icons.arrow_back_ios, color: Colors.white),
+      appBar: CustomAppBar(
+        title: 'Poster Report',
+        onBackTap: () => Navigator.pop(context),
       ),
-      body: Column(
-        children: [
-          RepaintBoundary(
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
-              height: 500,
-              decoration: BoxDecoration(
-                color: Colors.black,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(12),
-                child: (_controller != null && _controller!.value.isInitialized)
-                    ? CameraPreview(_controller!)
-                    : const Center(
-                        child: CircularProgressIndicator(
-                          color: Color(0xFFC6102E),
+      body: SafeArea(
+        child: Column(
+          children: [
+            RepaintBoundary(
+              child: Container(
+                margin: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10,
+                ),
+                height: context.screenHeight * 0.5,
+                decoration: BoxDecoration(
+                  color: Colors.black,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child:
+                      (_controller != null && _controller!.value.isInitialized)
+                      ? CameraPreview(_controller!)
+                      : Center(
+                          child: CircularProgressIndicator(
+                            color: Theme.of(context).colorScheme.primary,
+                          ),
                         ),
-                      ),
+                ),
               ),
             ),
-          ),
-          Text(
-            "Select Density",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
+            Text(
+              "Select Density",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
             ),
-          ),
-          const SizedBox(height: 15),
-          _buildDensityBar(),
-          const Spacer(),
-          _buildCameraControls(context),
-          const SizedBox(height: 30),
-        ],
+            const SizedBox(height: 15),
+            _buildDensityBar(),
+            const Spacer(),
+            _buildCameraControls(context),
+            const SizedBox(height: 30),
+          ],
+        ),
       ),
     );
   }
@@ -94,7 +97,7 @@ class _PosterReportScreenState extends State<PosterReportScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 30),
       padding: const EdgeInsets.all(4),
       decoration: BoxDecoration(
-        color: Colors.white10,
+        color: Theme.of(context).colorScheme.tertiaryFixedDim,
         borderRadius: BorderRadius.circular(12),
       ),
       child: Row(
@@ -104,9 +107,13 @@ class _PosterReportScreenState extends State<PosterReportScreen> {
             child: GestureDetector(
               onTap: () => setState(() => _selectedDensity = level),
               child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 10),
+                padding: context.isSmall
+                    ? EdgeInsets.symmetric(vertical: 5)
+                    : EdgeInsets.symmetric(vertical: 10),
                 decoration: BoxDecoration(
-                  color: isSel ? const Color(0xFFC6102E) : Colors.transparent,
+                  color: isSel
+                      ? Theme.of(context).colorScheme.primary
+                      : Colors.transparent,
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Column(
@@ -120,7 +127,7 @@ class _PosterReportScreenState extends State<PosterReportScreen> {
                       color: isSel
                           ? Theme.of(context).colorScheme.onSurface
                           : Theme.of(context).colorScheme.onPrimary,
-                      size: 20,
+                      size: context.isSmall ? 15 : 20,
                     ),
                     Text(
                       level,
@@ -173,19 +180,25 @@ class _PosterReportScreenState extends State<PosterReportScreen> {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0xFFC6102E), width: 2),
+              border: Border.all(
+                color: Theme.of(context).colorScheme.primary,
+                width: 2,
+              ),
             ),
-            child: const CircleAvatar(
+            child: CircleAvatar(
               radius: 30,
-              backgroundColor: Color(0xFFC6102E),
-              child: Icon(Icons.camera_alt, color: Colors.white),
+              backgroundColor: Theme.of(context).colorScheme.primary,
+              child: Icon(
+                Icons.camera_alt,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
             ),
           ),
         ),
         GestureDetector(
           onTap: () {},
           child: Container(
-            padding: EdgeInsets.all(12),
+            padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.primaryContainer,
               shape: BoxShape.circle,

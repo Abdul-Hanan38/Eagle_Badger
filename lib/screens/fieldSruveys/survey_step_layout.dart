@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class SurveyStepLayout extends StatelessWidget {
@@ -17,7 +18,9 @@ class SurveyStepLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(24.0),
+      padding: context.isSmall
+          ? EdgeInsets.symmetric(horizontal: 20, vertical: 10)
+          : EdgeInsets.all(24.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -35,14 +38,14 @@ class SurveyStepLayout extends StatelessWidget {
                   Icon(
                     Icons.person,
                     fontWeight: FontWeight.w900,
-                    color: const Color.fromARGB(255, 198, 16, 46),
+                    color: Theme.of(context).colorScheme.primary,
+                    size: context.isSmall ? 16 : 18,
                   ),
                   SizedBox(width: 5),
                   Text(
                     "Profiling: $profile",
-                    style: TextStyle(
-                      color: const Color.fromARGB(255, 198, 16, 46),
-                      fontSize: 14,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
@@ -50,10 +53,20 @@ class SurveyStepLayout extends StatelessWidget {
               ),
             ),
           ],
-          Text(title, style: Theme.of(context).textTheme.titleLarge),
+          Text(
+            title,
+            style: context.isSmall
+                ? Theme.of(context).textTheme.titleMedium!.copyWith(height: 1.2)
+                : Theme.of(context).textTheme.titleLarge,
+          ),
           if (description != null) ...[
             const SizedBox(height: 12),
-            Text(description!, style: Theme.of(context).textTheme.bodyMedium),
+            Text(
+              description!,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
+              ),
+            ),
           ],
           const SizedBox(height: 32),
           Expanded(child: content),

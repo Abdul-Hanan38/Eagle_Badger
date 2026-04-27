@@ -1,3 +1,4 @@
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'survey_flow_screen.dart';
 
@@ -24,118 +25,105 @@ class _SafetyReportingScreenState extends State<SafetyReportingScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.surface,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 22,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        centerTitle: true,
-        title: const Text(
-          "Safety Reporting",
-          style: TextStyle(color: Colors.white, fontSize: 22),
-        ),
+      appBar: CustomAppBar(
+        title: 'Safety Reporting',
+        onBackTap: () => Navigator.pop(context),
       ),
-      body: ListView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.all(20),
-        children: [
-          Text(
-            "Field Intelligence",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const SizedBox(height: 10),
-          Text(
-            "Any fear or intimidation observed?",
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 10),
-          Text(
-            "Select the level of tension at your current location to update the command center.",
-            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
-          ),
-
-          const SizedBox(height: 25),
-          _safetyCard(
-            context,
-            index: 0,
-            title: "None",
-            color: Colors.green,
-            icon: Icons.check_circle_outline,
-            img: 'assets/images/safety1.png',
-          ),
-          _safetyCard(
-            context,
-            index: 1,
-            title: "Low",
-            color: Colors.amber,
-            icon: Icons.warning_amber_rounded,
-            img: 'assets/images/safety2.png',
-          ),
-          _safetyCard(
-            context,
-            index: 2,
-            title: "High",
-            color: Colors.red,
-            icon: Icons.error_outline_rounded,
-            img: 'assets/images/safety3.png',
-          ),
-          const SizedBox(height: 30),
-          ElevatedButton(
-            onPressed: () => Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => const SurveyFlowScreen()),
-            ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color(0xFFC6102E),
-              minimumSize: const Size(double.infinity, 54),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-            ),
-            child: const Text(
-              "Submit Field Report",
-              style: TextStyle(
-                color: Colors.white,
+      body: SafeArea(
+        child: ListView(
+          physics: const BouncingScrollPhysics(),
+          padding: const EdgeInsets.all(20),
+          children: [
+            Text(
+              "Field Intelligence",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.primary,
                 fontWeight: FontWeight.bold,
               ),
             ),
-          ),
-          const SizedBox(height: 30),
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.primaryContainer,
-              borderRadius: BorderRadius.circular(12),
-              border: Border.all(
-                color: const Color.fromARGB(30, 243, 150, 166),
+            const SizedBox(height: 10),
+            Text(
+              "Any fear or intimidation observed?",
+              style: Theme.of(context).textTheme.titleMedium,
+            ),
+            const SizedBox(height: 10),
+            Text(
+              "Select the level of tension at your current location to update the command center.",
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'Verification works offline via secure local protocol. Your data will sync once a connection is established.',
-                  textAlign: TextAlign.left,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-              ],
+
+            const SizedBox(height: 25),
+            _safetyCard(
+              context,
+              index: 0,
+              title: "None",
+              color: Colors.green,
+              icon: Icons.check_circle_outline,
+              img: 'assets/images/safety1.png',
             ),
-          ),
-        ],
+            _safetyCard(
+              context,
+              index: 1,
+              title: "Low",
+              color: Colors.amber,
+              icon: Icons.warning_amber_rounded,
+              img: 'assets/images/safety2.png',
+            ),
+            _safetyCard(
+              context,
+              index: 2,
+              title: "High",
+              color: Colors.red,
+              icon: Icons.error_outline_rounded,
+              img: 'assets/images/safety3.png',
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton(
+              onPressed: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SurveyFlowScreen(),
+                ),
+              ),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Theme.of(context).colorScheme.primary,
+                minimumSize: const Size(double.infinity, 54),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                "Submit Field Report",
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+            ),
+            const SizedBox(height: 30),
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.primaryContainer,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(
+                  color: const Color.fromARGB(30, 243, 150, 166),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'Verification works offline via secure local protocol. Your data will sync once a connection is established.',
+                    textAlign: TextAlign.left,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -179,13 +167,7 @@ class _SafetyReportingScreenState extends State<SafetyReportingScreen> {
                     children: [
                       Icon(icon, color: color, size: 18),
                       const SizedBox(width: 8),
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                      Text(title, style: Theme.of(context).textTheme.bodyLarge),
                     ],
                   ),
                   const SizedBox(height: 20),

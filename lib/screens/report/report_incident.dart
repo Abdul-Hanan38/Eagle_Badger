@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ReportIncidentScreen extends StatefulWidget {
@@ -14,92 +16,68 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        surfaceTintColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "Report Incident",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        centerTitle: true,
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text(
-              "Cancel",
-              style: Theme.of(context).textTheme.bodyLarge!.copyWith(
-                color: Theme.of(context).colorScheme.primary,
+      appBar: CustomAppBar(
+        title: 'Report Incident',
+        onBackTap: () => Navigator.pop(context),
+        actionText: 'Cancel',
+        actionColor: Theme.of(context).colorScheme.primary,
+        onActionTap: () {},
+      ),
+      body: SafeArea(
+        child: Column(
+          children: [
+            const SizedBox(height: 20),
+            Expanded(
+              child: ListView(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                children: [
+                  Text(
+                    "What happened?",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    "Select the category that best describes the incident you are witnessing in the field.",
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                  ),
+                  const SizedBox(height: 20),
+
+                  _buildIncidentTile(
+                    "Violence",
+                    "Physical harm, fighting, or threats of force",
+                    Icons.sports_kabaddi,
+                  ),
+                  _buildIncidentTile(
+                    "Vote buying",
+                    "Exchange of money, food, or gifts for votes",
+                    Icons.how_to_vote,
+                  ),
+                  _buildIncidentTile(
+                    "Intimidation",
+                    "Harassment or pressure on voters/staff",
+                    Icons.gavel,
+                  ),
+                  _buildIncidentTile(
+                    "Disruption",
+                    "Blocking access or logistics interference",
+                    Icons.grid_view_rounded,
+                  ),
+                  _buildIncidentTile(
+                    "Other",
+                    "Any other irregular activity or concerns",
+                    Icons.more_horiz,
+                  ),
+
+                  const SizedBox(height: 15),
+                  _buildSecurityFooter(),
+                  const SizedBox(height: 20),
+                ],
               ),
             ),
-          ),
-        ],
-      ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Expanded(
-            child: ListView(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              children: [
-                Text(
-                  "What happened?",
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-                const SizedBox(height: 12),
-                Text(
-                  "Select the category that best describes the incident you are witnessing in the field.",
-                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                    color: Theme.of(context).colorScheme.onPrimary,
-                  ),
-                ),
-                const SizedBox(height: 20),
-
-                _buildIncidentTile(
-                  "Violence",
-                  "Physical harm, fighting, or threats of force",
-                  Icons.sports_kabaddi,
-                ),
-                _buildIncidentTile(
-                  "Vote buying",
-                  "Exchange of money, food, or gifts for votes",
-                  Icons.how_to_vote,
-                ),
-                _buildIncidentTile(
-                  "Intimidation",
-                  "Harassment or pressure on voters/staff",
-                  Icons.gavel,
-                ),
-                _buildIncidentTile(
-                  "Disruption",
-                  "Blocking access or logistics interference",
-                  Icons.grid_view_rounded,
-                ),
-                _buildIncidentTile(
-                  "Other",
-                  "Any other irregular activity or concerns",
-                  Icons.more_horiz,
-                ),
-
-                const SizedBox(height: 15),
-                _buildSecurityFooter(),
-                const SizedBox(height: 20),
-              ],
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -115,12 +93,14 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 16),
-        padding: const EdgeInsets.all(16),
+        padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.onSecondaryFixed,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 1.5,
           ),
         ),
@@ -129,10 +109,14 @@ class _ReportIncidentScreenState extends State<ReportIncidentScreen> {
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color(0xFF261C1C),
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: const Color(0xFFC6102E), size: 24),
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.primary,
+                size: context.isSmall ? 16 : 24,
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(

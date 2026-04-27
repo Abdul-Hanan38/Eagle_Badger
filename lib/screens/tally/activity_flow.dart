@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ActivityFlowScreen extends StatefulWidget {
@@ -47,7 +49,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       context: context,
       barrierDismissible: false,
       builder: (context) => AlertDialog(
-        backgroundColor: const Color(0xFF251111),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
         title: TweenAnimationBuilder<double>(
           duration: const Duration(milliseconds: 1000),
@@ -62,10 +64,10 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
             );
           },
         ),
-        content: const Text(
+        content: Text(
           "Activity Log Saved Successfully!",
           textAlign: TextAlign.center,
-          style: TextStyle(color: Colors.white, fontSize: 16),
+          style: Theme.of(context).textTheme.bodyLarge,
         ),
         actions: [
           Center(
@@ -74,12 +76,10 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
                 Navigator.pop(context); // Close Dialog
                 Navigator.pushReplacementNamed(context, '/reviewCheckIn');
               },
-              child: const Text(
+              child: Text(
                 "Done",
-                style: TextStyle(
-                  color: Color(0xFFC6102E),
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18,
+                style: Theme.of(context).textTheme.labelMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.primary,
                 ),
               ),
             ),
@@ -93,36 +93,25 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          _getTitle(),
-          style: const TextStyle(color: Colors.white, fontSize: 22),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: _getTitle(),
+        onBackTap: () => Navigator.pop(context),
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: const BouncingScrollPhysics(),
-        onPageChanged: (i) => setState(() => _currentStep = i),
-        children: [
-          _buildArrivalDetection(),
-          _buildArrivalStatus(),
-          _buildBinaryStatus("Has the polling unit opened?", "pu_open"),
-          _buildOpeningDayTasks(),
-          _buildPresenceCheck(),
-          _buildQueueStatus(),
-          _buildPollMonitor(),
-        ],
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          physics: const BouncingScrollPhysics(),
+          onPageChanged: (i) => setState(() => _currentStep = i),
+          children: [
+            _buildArrivalDetection(),
+            _buildArrivalStatus(),
+            _buildBinaryStatus("Has the polling unit opened?", "pu_open"),
+            _buildOpeningDayTasks(),
+            _buildPresenceCheck(),
+            _buildQueueStatus(),
+            _buildPollMonitor(),
+          ],
+        ),
       ),
     );
   }
@@ -143,8 +132,6 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
     return titles[_currentStep];
   }
 
-  // --- YOUR EXISTING UI METHODS (RETAINED) ---
-
   Widget _buildArrivalDetection() {
     return _buildBaseLayout(
       title: _getGreeting(),
@@ -156,21 +143,21 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
             child: Image.asset('assets/images/location.png'),
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: context.isSmall ? 10 : 20),
           _buildStaticInfoTile(
             Icons.location_on,
             "GPS: 6.5244° N, 3.3792° E",
             "Active",
-            Colors.green,
+            Theme.of(context).colorScheme.tertiaryFixed,
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: context.isSmall ? 10 : 20),
           Text(
             'The system has detected that you are within 50 meters of Polling Unit 04-12-09. Please confirm arrival to begin.',
             style: Theme.of(context).textTheme.bodyMedium!.copyWith(
               color: Theme.of(context).colorScheme.onPrimary,
             ),
           ),
-          const SizedBox(height: 50),
+          SizedBox(height: context.isSmall ? 20 : 50),
           _buildSubmitButton(
             "Begin Check-In",
             () => _onSelectionMade("init", true),
@@ -198,12 +185,12 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
             "arrival",
             "No",
           ),
-          const SizedBox(height: 20),
+          SizedBox(height: context.isSmall ? 10 : 20),
           _buildStaticInfoTile2(
             "Location Check",
             "Based on your GPS, you are 256m away",
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: context.isSmall ? 15 : 30),
           Text(
             '? Need help finding the unit?',
             style: Theme.of(context).textTheme.bodyMedium,
@@ -223,12 +210,18 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
           const SizedBox(height: 10),
           Row(
             children: [
-              const Icon(Icons.location_on, color: Colors.white, size: 18),
+              Icon(
+                Icons.location_on,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: 18,
+              ),
               const SizedBox(width: 8),
-              Text(
-                "GPS and timestamp will be logged automatically",
-                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                  color: Theme.of(context).colorScheme.onPrimary,
+              Expanded(
+                child: Text(
+                  "GPS and timestamp will be logged automatically",
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               ),
             ],
@@ -288,7 +281,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
             "Full",
             isRecommended: true,
           ),
-          const SizedBox(height: 80),
+          SizedBox(height: context.screenHeight * 0.1),
           _buildSubmitButton(
             "Submit Observation",
             () => _onSelectionMade("presence_final", true),
@@ -306,13 +299,13 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
         children: [
           _buildQueueSquare("Light", Icons.person, "queue", "Light"),
           _buildQueueSquare("Heavy", Icons.groups, "queue", "Heavy"),
-          const SizedBox(height: 30),
+          SizedBox(height: context.isSmall ? 10 : 30),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Icon(
+              Icon(
                 Icons.priority_high_outlined,
-                color: Colors.grey,
+                color: Theme.of(context).colorScheme.onPrimary,
                 size: 18,
               ),
               const SizedBox(width: 8),
@@ -326,7 +319,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
               ),
             ],
           ),
-          const SizedBox(height: 30),
+          SizedBox(height: context.isSmall ? 10 : 30),
           _buildSubmitButton(
             "Submit Status",
             () => _onSelectionMade("queue_final", true),
@@ -377,7 +370,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const SizedBox(height: 20),
+          SizedBox(height: context.isSmall ? 10 : 20),
           Text(title, style: Theme.of(context).textTheme.titleMedium),
           if (subtitle != null)
             Text(
@@ -386,7 +379,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
             ),
-          const SizedBox(height: 30),
+          SizedBox(height: context.isSmall ? 10 : 30),
           Expanded(child: content),
         ],
       ),
@@ -405,7 +398,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 12),
-        height: 200,
+        height: context.screenHeight * 0.25,
         width: double.infinity,
         decoration: BoxDecoration(
           color: isSelected
@@ -416,16 +409,9 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white),
+            Icon(icon, color: Theme.of(context).colorScheme.onSurface),
             const SizedBox(height: 20),
-            Text(
-              text,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
+            Text(text, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),
@@ -444,15 +430,15 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 16),
-        height: 180,
+        height: context.screenHeight * 0.2,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFF1E0D0D),
+          color: Theme.of(context).colorScheme.tertiaryContainer,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected
-                ? const Color(0xFFC6102E)
-                : const Color(0xFF2D2D2D),
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.onTertiaryFixed,
             width: 2,
           ),
         ),
@@ -460,21 +446,18 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 30,
+              radius: context.isSmall ? 20 : 30,
               backgroundColor: isSelected
-                  ? const Color(0xFFC6102E)
-                  : const Color(0xFF2D2D2D),
-              child: Icon(icon, color: Colors.white, size: 28),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
+                  ? Theme.of(context).colorScheme.primary
+                  : Theme.of(context).colorScheme.onTertiaryFixed,
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: context.isSmall ? 24 : 28,
               ),
             ),
+            const SizedBox(height: 16),
+            Text(label, style: Theme.of(context).textTheme.bodyLarge),
           ],
         ),
       ),
@@ -494,13 +477,17 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 12),
-        height: 120,
+        height: context.isSmall
+            ? context.screenHeight * 0.1
+            : context.screenHeight * 0.13,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         decoration: BoxDecoration(
-          color: const Color(0xFF2D1F1F),
+          color: Theme.of(context).colorScheme.tertiaryContainer,
           borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 2,
           ),
         ),
@@ -517,31 +504,32 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
                     child: Text(
                       'Recommended selection',
                       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                        color: const Color(0xFFC6102E),
+                        color: Theme.of(context).colorScheme.primary,
                       ),
                     ),
                   ),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 22,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                Text(label, style: Theme.of(context).textTheme.titleSmall),
               ],
             ),
             AnimatedContainer(
               duration: const Duration(milliseconds: 200),
-              width: 80,
-              height: 80,
+              width: context.isSmall
+                  ? context.screenWidth * 0.15
+                  : context.screenWidth * 0.2,
+              height: context.isSmall
+                  ? context.screenHeight * 0.07
+                  : context.screenHeight * 0.1,
               decoration: BoxDecoration(
                 color: isSelected
                     ? Theme.of(context).colorScheme.tertiaryContainer
                     : Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(12),
               ),
-              child: Icon(icon, color: Colors.white, size: 30),
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: context.isSmall ? 20 : 30,
+              ),
             ),
           ],
         ),
@@ -561,13 +549,15 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 200),
         margin: const EdgeInsets.only(bottom: 16),
-        height: 200,
+        height: context.screenHeight * 0.2,
         width: double.infinity,
         decoration: BoxDecoration(
-          color: const Color(0xFF16202C),
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 2,
           ),
         ),
@@ -575,18 +565,16 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.white10,
-              child: Icon(icon, color: Colors.white, size: 30),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+              radius: context.isSmall ? 25 : 30,
+              backgroundColor: Theme.of(context).colorScheme.tertiaryFixedDim,
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: context.isSmall ? 25 : 30,
               ),
             ),
+            const SizedBox(height: 12),
+            Text(label, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),
@@ -600,7 +588,7 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
     Color color,
   ) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.primaryContainer,
         borderRadius: BorderRadius.circular(16),
@@ -608,12 +596,16 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: Row(
         children: [
           Container(
-            padding: const EdgeInsets.all(12),
+            padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(12),
             decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
               borderRadius: BorderRadius.circular(12),
             ),
-            child: Icon(icon, color: Colors.white, size: 24),
+            child: Icon(
+              icon,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: context.isSmall ? 18 : 24,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -621,20 +613,12 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                Text(title, style: Theme.of(context).textTheme.bodyLarge),
                 const SizedBox(height: 4),
                 Text(
                   sub,
-                  style: const TextStyle(
-                    color: Color(0xFFC6102E),
-                    fontSize: 13,
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    color: Theme.of(context).colorScheme.primary,
                   ),
                 ),
               ],
@@ -653,11 +637,9 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
                 const SizedBox(width: 6),
                 Text(
                   "Active",
-                  style: TextStyle(
-                    color: color,
-                    fontSize: 14,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(
+                    context,
+                  ).textTheme.bodyMedium!.copyWith(color: color),
                 ),
               ],
             ),
@@ -669,18 +651,18 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
 
   Widget _buildStaticInfoTile2(String title, String sub) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.isSmall ? EdgeInsets.all(10) : EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFF2D1F1F),
-        borderRadius: BorderRadius.circular(20),
+        color: Theme.of(context).colorScheme.tertiaryContainer,
+        borderRadius: BorderRadius.circular(16),
       ),
       child: Row(
         children: [
           Container(
-            width: 70,
-            height: 70,
+            width: context.isSmall ? 50 : 70,
+            height: context.isSmall ? 50 : 70,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(10),
               image: const DecorationImage(
                 image: AssetImage('assets/images/map_placeholder.png'),
                 fit: BoxFit.cover,
@@ -715,19 +697,13 @@ class _ActivityFlowScreenState extends State<ActivityFlowScreen> {
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFFC6102E),
+          backgroundColor: Theme.of(context).colorScheme.primary,
           minimumSize: const Size(double.infinity, 56),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
         ),
-        child: Text(
-          text,
-          style: const TextStyle(
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-        ),
+        child: Text(text, style: Theme.of(context).textTheme.labelMedium),
       ),
     );
   }

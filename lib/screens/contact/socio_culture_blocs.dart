@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class SocioCulturalBlocsScreen extends StatelessWidget {
@@ -7,86 +9,89 @@ class SocioCulturalBlocsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        leading: const Icon(
-          Icons.arrow_back_ios_new,
-          color: Colors.white,
-          size: 20,
-        ),
-        title: const Text(
-          "Socio-Cultural Blocs",
-          style: TextStyle(color: Colors.white, fontSize: 22),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'Socio-Culture Blocs',
+        onBackTap: () => Navigator.pop(context),
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20),
-        child: Column(
-          children: [
-            const SizedBox(height: 10),
-            // Search Bar
-            TextField(
-              decoration: InputDecoration(
-                hintText: "Search influence groups...",
-                hintStyle: TextStyle(
-                  color: Theme.of(context).colorScheme.primaryFixed,
-                ),
-                prefixIcon: const Icon(Icons.search, color: Color(0xFFC6102E)),
-                filled: true,
-                fillColor: Theme.of(context).colorScheme.onSecondaryFixed,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.white10, width: 0.5),
-                ),
-                // Border state when clicked
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: const BorderSide(
-                    color: Color(0xFFC6102E),
-                    width: 1.0, // Slightly thicker only when active
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Column(
+            children: [
+              const SizedBox(height: 10),
+              // Search Bar
+              TextField(
+                decoration: InputDecoration(
+                  hintText: "Search influence groups...",
+                  hintStyle: TextStyle(
+                    color: Theme.of(context).colorScheme.primaryFixed,
+                  ),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                  filled: true,
+                  fillColor: Theme.of(context).colorScheme.onSecondaryFixed,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.tertiaryFixedDim,
+                      width: 0.5,
+                    ),
+                  ),
+                  // Border state when clicked
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    borderSide: BorderSide(
+                      color: Theme.of(context).colorScheme.primary,
+                      width: 1.0, // Slightly thicker only when active
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 30),
-            Expanded(
-              child: GridView.count(
-                crossAxisCount: 2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
-                children: [
-                  _buildBlocCard(
-                    context,
-                    "Markets",
-                    "12 Registered",
-                    Icons.account_balance,
-                  ),
-                  _buildBlocCard(
-                    context,
-                    "Mosques",
-                    "8 Registered",
-                    Icons.mosque,
-                  ),
-                  _buildBlocCard(
-                    context,
-                    "Churches",
-                    "15 Registered",
-                    Icons.church,
-                  ),
-                  _buildBlocCard(context, "CDAs", "6 Registered", Icons.groups),
-                  _buildBlocCard(
-                    context,
-                    "Youth Groups",
-                    "20 Registered",
-                    Icons.grid_view,
-                  ),
-                  _buildAddCategoryCard(),
-                ],
+              const SizedBox(height: 30),
+              Expanded(
+                child: GridView.count(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 16,
+                  mainAxisSpacing: 16,
+                  children: [
+                    _buildBlocCard(
+                      context,
+                      "Markets",
+                      "12 Registered",
+                      Icons.account_balance,
+                    ),
+                    _buildBlocCard(
+                      context,
+                      "Mosques",
+                      "8 Registered",
+                      Icons.mosque,
+                    ),
+                    _buildBlocCard(
+                      context,
+                      "Churches",
+                      "15 Registered",
+                      Icons.church,
+                    ),
+                    _buildBlocCard(
+                      context,
+                      "CDAs",
+                      "6 Registered",
+                      Icons.groups,
+                    ),
+                    _buildBlocCard(
+                      context,
+                      "Youth Groups",
+                      "20 Registered",
+                      Icons.grid_view,
+                    ),
+                    _buildAddCategoryCard(context),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: _buildBottomNav(context),
@@ -104,9 +109,9 @@ class SocioCulturalBlocsScreen extends StatelessWidget {
         Navigator.pushNamed(context, '/blocDetails');
       },
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: context.isSmall ? EdgeInsets.all(16) : EdgeInsets.all(20),
         decoration: BoxDecoration(
-          color: const Color(0xFF1C222D),
+          color: Theme.of(context).colorScheme.onSecondaryContainer,
           borderRadius: BorderRadius.circular(16),
         ),
         child: Column(
@@ -115,34 +120,31 @@ class SocioCulturalBlocsScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: const Color(0xFF2D1F1F),
+                color: Theme.of(context).colorScheme.primaryContainer,
                 borderRadius: BorderRadius.circular(8),
               ),
-              child: Icon(icon, color: const Color(0xFFC6102E), size: 24),
-            ),
-            const Spacer(),
-            Text(
-              title,
-              style: const TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 18,
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.primary,
+                size: context.isSmall ? 18 : 24,
               ),
             ),
-            Text(
-              count,
-              style: const TextStyle(color: Colors.grey, fontSize: 12),
-            ),
+            const Spacer(),
+            Text(title, style: Theme.of(context).textTheme.bodyLarge),
+            Text(count, style: Theme.of(context).textTheme.bodySmall),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildAddCategoryCard() {
+  Widget _buildAddCategoryCard(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.white10, style: BorderStyle.solid),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.tertiaryFixedDim,
+          style: BorderStyle.solid,
+        ),
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -150,15 +152,14 @@ class SocioCulturalBlocsScreen extends StatelessWidget {
         children: [
           Icon(
             Icons.add_circle_outline,
-            color: const Color(0xFFC6102E),
+            color: Theme.of(context).colorScheme.primary,
             size: 30,
           ),
           const SizedBox(height: 10),
-          const Text(
+          Text(
             "Add Category",
-            style: TextStyle(
-              color: Color(0xFFC6102E),
-              fontWeight: FontWeight.bold,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ],

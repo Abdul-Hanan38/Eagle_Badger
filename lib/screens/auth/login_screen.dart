@@ -1,6 +1,8 @@
+import 'package:eagle_badger/widgets/custom_appbar.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:eagle_badger/utils/responsive_helper.dart';
 
 final phoneFormatter = MaskTextInputFormatter(
   mask: '(###) ###-####',
@@ -14,36 +16,9 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40),
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 15),
-          child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            centerTitle: true,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).colorScheme.onSurface,
-                size: 20,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            titleSpacing: 0,
-            title: Text(
-              'Login',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ),
-        ),
+      appBar: CustomAppBar(
+        title: 'Login',
+        onBackTap: () => Navigator.pop(context),
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -60,7 +35,7 @@ class LoginScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
+                  SizedBox(height: context.isSmall ? 30 : 60),
                   Center(
                     child: SizedBox(
                       width: 80,
@@ -78,15 +53,19 @@ class LoginScreen extends StatelessWidget {
                       style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                  const SizedBox(height: 30),
+                  SizedBox(height: context.isSmall ? 15 : 30),
                   Text(
                     'Enter your mobile number',
-                    style: Theme.of(context).textTheme.titleLarge,
+                    style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      fontSize: context.isSmall ? 26 : 32,
+                    ),
                   ),
                   const SizedBox(height: 12),
                   Text(
                     'A high-fidelity political intelligence and mobilization platform for field volunteers.',
-                    style: Theme.of(context).textTheme.bodyMedium,
+                    style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                   ),
                   const SizedBox(height: 32),
                   Text(
@@ -110,9 +89,9 @@ class LoginScreen extends StatelessWidget {
                       fillColor: Theme.of(
                         context,
                       ).colorScheme.secondaryContainer,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 20,
-                        vertical: 24,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: context.isSmall ? 18 : 20,
+                        vertical: context.isSmall ? 20 : 24,
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
@@ -133,44 +112,24 @@ class LoginScreen extends StatelessWidget {
                   const SizedBox(height: 20),
                   Text(
                     'By Continuing, you agree to receive SMS alerts for verification and compaign updates',
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
                   ),
                   const SizedBox(height: 40),
                   // Bottom Navigation Button.
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        minimumSize: const Size(double.infinity, 56),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/otp');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Send Verification Code',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.arrow_forward_ios_outlined,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ],
-                      ),
-                    ),
+                  CustomButton(
+                    title: 'Send Verification Code',
+                    rightIcon: Icons.arrow_forward_ios_outlined,
+                    onPressed: () => Navigator.pushNamed(context, '/otp'),
                   ),
                   const SizedBox(height: 20),
                   Center(
                     child: Text(
                       'Need Help Signing in?',
-                      style: Theme.of(context).textTheme.bodySmall,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
+                      ),
                     ),
                   ),
                 ],

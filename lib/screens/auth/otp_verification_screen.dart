@@ -1,61 +1,45 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-
-final defaultPinTheme = PinTheme(
-  width: 56,
-  height: 64,
-  textStyle: const TextStyle(
-    fontSize: 20,
-    color: Colors.white,
-    fontWeight: FontWeight.w600,
-  ),
-  decoration: BoxDecoration(
-    color: const Color.fromARGB(255, 56, 26, 26),
-    borderRadius: BorderRadius.circular(12),
-    border: Border.all(color: const Color(0xFF2D2D2D)),
-  ),
-);
-
-final focusedPinTheme = defaultPinTheme.copyDecorationWith(
-  border: Border.all(color: const Color(0xFFC6102E), width: 2),
-);
+import 'package:eagle_badger/utils/responsive_helper.dart';
 
 class OtpVerificationScreen extends StatelessWidget {
   const OtpVerificationScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40),
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 15),
-          child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            centerTitle: true,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).colorScheme.onSurface,
-                size: 20,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            titleSpacing: 0,
-            title: Text(
-              'OPT Verification',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ),
+    double pinwidth = context.relativeWidth(0.14);
+    double pinheight = pinwidth * 1.15;
+
+    final defaultPinTheme = PinTheme(
+      width: pinwidth,
+      height: pinheight,
+      textStyle: TextStyle(
+        fontSize: context.screenWidth * 0.05,
+        color: Theme.of(context).colorScheme.onSurface,
+        fontWeight: FontWeight.w600,
+      ),
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primaryContainer,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
         ),
+      ),
+    );
+
+    final focusedPinTheme = defaultPinTheme.copyDecorationWith(
+      border: Border.all(
+        color: Theme.of(context).colorScheme.primary,
+        width: 2,
+      ),
+    );
+    return Scaffold(
+      appBar: CustomAppBar(
+        title: 'OTP Verification',
+        onBackTap: () => Navigator.pop(context),
       ),
       body: GestureDetector(
         behavior: HitTestBehavior.opaque,
@@ -72,7 +56,7 @@ class OtpVerificationScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 60),
+                  SizedBox(height: context.isSmall ? 30 : 60),
                   Center(
                     child: Text(
                       'Security Verification',
@@ -87,10 +71,10 @@ class OtpVerificationScreen extends StatelessWidget {
                         const TextSpan(text: "We've sent a 6-digit code to "),
                         TextSpan(
                           text: '+1 (555) 000-0000. ',
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodyMedium!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.onSurface,
+                              ),
                         ),
                         const TextSpan(
                           text:
@@ -99,7 +83,7 @@ class OtpVerificationScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 40),
+                  SizedBox(height: context.isSmall ? 20 : 40),
                   Pinput(
                     length: 6,
                     defaultPinTheme: defaultPinTheme,
@@ -123,36 +107,13 @@ class OtpVerificationScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  const SizedBox(height: 120),
+                  SizedBox(height: context.isSmall ? 80 : 120),
                   // Bottom Navigation Button.
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10, top: 10),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Theme.of(context).colorScheme.primary,
-                        minimumSize: const Size(double.infinity, 56),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                      ),
-                      onPressed: () {
-                        Navigator.of(context).pushNamed('/permission');
-                      },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Verify & Sync',
-                            style: Theme.of(context).textTheme.labelLarge,
-                          ),
-                          SizedBox(width: 8),
-                          Icon(
-                            Icons.sync,
-                            color: Theme.of(context).colorScheme.onSurface,
-                          ),
-                        ],
-                      ),
-                    ),
+                  CustomButton(
+                    title: 'Verify & Sync',
+                    rightIcon: Icons.sync,
+                    onPressed: () =>
+                        Navigator.pushNamed(context, '/permission'),
                   ),
                   const SizedBox(height: 20),
                   Center(

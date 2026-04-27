@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class GridSelectionCard extends StatelessWidget {
@@ -20,10 +21,12 @@ class GridSelectionCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 243, 150, 166),
+          color: Theme.of(context).colorScheme.primaryContainer,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.white10,
+            color: isSelected
+                ? Theme.of(context).colorScheme.onPrimary
+                : Theme.of(context).colorScheme.tertiaryFixedDim,
             width: 1.5,
           ),
         ),
@@ -31,20 +34,23 @@ class GridSelectionCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
-              decoration: const BoxDecoration(
-                color: Color(0xFF381A1A),
+              padding: context.isSmall ? EdgeInsets.all(6) : EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onSecondaryFixed,
                 shape: BoxShape.circle,
               ),
-              child: Icon(icon, color: Colors.white, size: 28),
+              child: Icon(
+                icon,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: context.isSmall ? 18 : 28,
+              ),
             ),
             const SizedBox(height: 16),
             Text(
               label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 14,
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
           ],
@@ -70,12 +76,16 @@ class OtherConcernTile extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 18),
+        padding: context.isSmall
+            ? EdgeInsets.symmetric(vertical: 9)
+            : EdgeInsets.symmetric(vertical: 18),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(30, 243, 150, 166),
-          borderRadius: BorderRadius.circular(20),
+          color: Theme.of(context).colorScheme.primaryContainer,
+          borderRadius: BorderRadius.circular(12),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.white10,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Theme.of(context).colorScheme.tertiaryFixedDim,
             width: 1.5,
           ),
         ),
@@ -84,8 +94,8 @@ class OtherConcernTile extends StatelessWidget {
           children: [
             Container(
               padding: const EdgeInsets.all(8),
-              decoration: const BoxDecoration(
-                color: Color(0xFF381A1A),
+              decoration: BoxDecoration(
+                color: Theme.of(context).colorScheme.onSecondaryFixed,
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -97,9 +107,8 @@ class OtherConcernTile extends StatelessWidget {
             const SizedBox(width: 12),
             Text(
               "Other Concern",
-              style: TextStyle(
+              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                 color: Theme.of(context).colorScheme.onSurface,
-                fontSize: 14,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -131,20 +140,14 @@ class FillGridCard extends StatelessWidget {
           color: Theme.of(context).colorScheme.onSecondaryContainer,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
-            color: isSelected ? const Color(0xFFC6102E) : Colors.transparent,
+            color: isSelected
+                ? Theme.of(context).colorScheme.primary
+                : Colors.transparent,
             width: 2,
           ),
         ),
         child: Center(
-          child: Text(
-            label,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
-              letterSpacing: 1.2,
-            ),
-          ),
+          child: Text(label, style: Theme.of(context).textTheme.titleSmall),
         ),
       ),
     );

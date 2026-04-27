@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:material_symbols_icons/symbols.dart';
 import '../../widgets/field_menu_card.dart';
@@ -22,19 +23,19 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   Row(
                     children: [
                       Container(
-                        width: 8,
-                        height: 8,
-                        decoration: const BoxDecoration(
-                          color: Colors.green,
+                        width: context.isSmall ? 4 : 8,
+                        height: context.isSmall ? 4 : 8,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).colorScheme.tertiaryFixed,
                           shape: BoxShape.circle,
                         ),
                       ),
                       const SizedBox(width: 8),
-                      const Text(
+                      Text(
                         "GPS Active",
                         style: TextStyle(
-                          color: Colors.green,
-                          fontSize: 12,
+                          color: Theme.of(context).colorScheme.tertiaryFixed,
+                          fontSize: context.isSmall ? 8 : 12,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -43,7 +44,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   Icon(
                     Icons.person,
                     color: Theme.of(context).colorScheme.onSurface,
-                    size: 28,
+                    size: context.isSmall ? 18 : 28,
                   ),
                 ],
               ),
@@ -60,19 +61,17 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   Text(
                     "Field Work Menu",
-                    style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSurface,
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                 ],
               ),
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(left: 48),
                 child: Text(
                   "Select what you want to do",
-                  style: TextStyle(color: Colors.grey),
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                    color: Theme.of(context).colorScheme.onPrimary,
+                  ),
                 ),
               ),
               const SizedBox(height: 20),
@@ -92,7 +91,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                 children: [
                   FieldMenuCard(
                     title: "Door-to-Door Canvassing",
-                    icon: Symbols.door_front,
+                    icon: Icons.door_front_door,
                     backgroundColor: Color.fromARGB(255, 102, 126, 167),
                     actions: {
                       "CANVASSING": () =>
@@ -103,7 +102,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   FieldMenuCard(
                     title: "Street Intelligence",
-                    icon: Symbols.person_pin_circle,
+                    icon: Icons.person_pin_circle_outlined,
                     backgroundColor: Color(0xFF7D2D36),
                     actions: {
                       "SURVEY": () =>
@@ -112,7 +111,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   FieldMenuCard(
                     title: "Influencer / Bloc Capture",
-                    icon: Symbols.groups,
+                    icon: Icons.groups,
                     backgroundColor: Color(0xFF2D1B1B),
                     actions: {
                       "CONTACT": () =>
@@ -121,7 +120,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   FieldMenuCard(
                     title: "Incident Reporting",
-                    icon: Symbols.accessibility_new,
+                    icon: Icons.accessibility_new_outlined,
                     backgroundColor: Color(0xFF4E5441),
                     actions: {
                       "REPORT": () =>
@@ -130,7 +129,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   FieldMenuCard(
                     title: "Election Day & Results",
-                    icon: Symbols.ballot,
+                    icon: Icons.poll,
                     backgroundColor: Color(0xFF8B5A34),
                     actions: {
                       "TALLY": () =>
@@ -139,7 +138,7 @@ class FieldWorkMenuScreen extends StatelessWidget {
                   ),
                   FieldMenuCard(
                     title: "Offline & End-of-Day",
-                    icon: Symbols.sync_alt,
+                    icon: Icons.sync_alt,
                     backgroundColor: Color(0xFF526D72),
                     actions: {
                       "FINALIZE": () => Navigator.pushNamed(context, '/queue'),

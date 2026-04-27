@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class ResidentTile extends StatelessWidget {
@@ -20,15 +21,15 @@ class ResidentTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
+      padding: EdgeInsets.all(context.isSmall ? 10 : 12),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 24,
+            radius: context.isSmall ? 20 : 24,
             backgroundImage: AssetImage(imageUrl.toString()),
           ),
           const SizedBox(width: 12),
@@ -36,19 +37,11 @@ class ResidentTile extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  name,
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
-                  ),
-                ),
+                Text(name, style: Theme.of(context).textTheme.bodyLarge),
                 Text(
                   "Age: $age | Voter ID: $voterId",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 13,
                   ),
                 ),
               ],

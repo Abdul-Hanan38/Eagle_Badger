@@ -1,5 +1,6 @@
 import 'package:eagle_badger/screens/finalize/day_summary.dart';
 import 'package:eagle_badger/screens/finalize/queue.dart';
+import 'package:eagle_badger/screens/finalize/rewards_badges.dart';
 import 'package:eagle_badger/screens/report/evidence_capture.dart';
 import 'package:eagle_badger/screens/report/report_incident.dart';
 import 'package:eagle_badger/screens/report/result_sheet.dart';
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       title: 'Eagle Badger',
       debugShowCheckedModeBanner: false,
 
-      theme: AppTheme.darkTheme,
+      theme: AppTheme.darkTheme(context),
       home: const SplashScreen(),
       routes: {
         '/language': (context) => const LanguageSelectionScreen(),
@@ -68,6 +69,7 @@ class MyApp extends StatelessWidget {
         '/resultVerification': (context) => const ResultVerificationScreen(),
         '/queue': (context) => const QueueScreen(),
         '/daySummary': (context) => const DaySummaryScreen(),
+        '/rewards': (context) => const RewardsBadgesScreen(),
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'survey_templates.dart';
 
@@ -19,13 +20,12 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
   String _getAppBarTitle() {
     switch (_currentStep) {
       case 1:
-        return "Opponent Activity"; // Title for Screen 1
+        return "Opponent Activity";
       case 2:
-        return "Other Indicators"; // Title for Screen 2
       case 3:
-        return "Other Indicators"; // Title for Screen 3
+        return "Other Indicators";
       default:
-        return "Voter intentions"; // Title for Screens 4 onward
+        return "Voter intentions";
     }
   }
 
@@ -60,96 +60,82 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        centerTitle: true,
-        elevation: 0,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        // Logic to update title according to screens
-        title: Text(
-          _getAppBarTitle(),
-          style: const TextStyle(color: Colors.white, fontSize: 22),
-        ),
+      appBar: CustomAppBar(
+        title: _getAppBarTitle(),
+        onBackTap: () => Navigator.pop(context),
       ),
       body: PageView(
         controller: _pageController,
-        physics: const BouncingScrollPhysics(), // Enabled sliding
+        physics: const BouncingScrollPhysics(),
         onPageChanged: (index) => setState(() => _currentStep = index + 1),
         children: [
           _buildBinaryStep(
-            stepKey: "logistics",
+            stepKey: "logistics_seen",
             title: "Opponent logistics seen?",
             description:
                 "Report immediate visual confirmation of opponent vehicles.",
           ),
           _buildBinaryStep(
-            stepKey: "indicators",
-            title: "Are people in the area wearing branded paraphernaliay",
+            stepKey: "branded_paraphernalia",
+            title: "Are people in the area wearing branded paraphernalia?",
           ),
           _buildBinaryStep(
-            stepKey: "indicators",
+            stepKey: "stickers_indicators",
             title:
                 "Do cars or houses around the area have stickers for opponents or clients?",
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "voter_choice_presidential",
             question:
                 "If the election were held today, who would you vote for at the Presidential level?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "voter_choice_governorship",
             question:
                 "If the election were held today, who would you vote for at the Governorship level?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "voter_choice_lga",
             question:
                 "Who do you intend to vote for at the Local Government (LGA) Chairmanship level?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "voter_choice_nass",
             question:
                 "Who do you intend to vote for at the National Assembly level?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "voter_choice_state_assembly",
             question:
                 "Who do you intend to vote for at the State Assembly level?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "public_support_party",
             question:
                 "In public places you visit most (buses, churches, mosques, gatherings), which candidate or party do people mostly support?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "public_support_strength",
             question:
                 "How strong is the support you hear in public spaces for the leading candidate/party?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
           ),
           _buildGridStep(
             context,
-            stepKey: "voter_choice",
+            stepKey: "strongest_discussion_locs",
             question:
                 "Which locations show the strongest political discussions?",
             options: ["Party A", "Party B", "Party C", "Undecided"],
@@ -180,7 +166,6 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
               ),
             ),
           ],
-
           const SizedBox(height: 40),
           SelectionButton(
             label: "Yes",
@@ -262,7 +247,6 @@ class _SurveyFlowScreenState extends State<SurveyFlowScreen> {
             Navigator.pushReplacementNamed(context, '/fieldWork');
             break;
           case 1:
-            // Remain on the current reporting flow
             break;
           case 2:
             Navigator.pushReplacementNamed(context, '/fieldWork');

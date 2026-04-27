@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class LocalPulseScreen extends StatefulWidget {
@@ -13,12 +15,15 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFF1A0F0F),
+      backgroundColor: Theme.of(context).colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
             // --- HEADER ---
-            _buildHeader(context),
+            CustomAppBar(
+              title: 'Local Pulse: Ward 4',
+              onBackTap: () => Navigator.pop(context),
+            ),
 
             // --- PAGE INDICATOR ---
             const SizedBox(height: 20),
@@ -39,9 +44,8 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
               children: [
                 Text(
                   "Swipe to continue",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 12,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -55,13 +59,15 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
 
             // --- ACTION BUTTONS ---
             Padding(
-              padding: const EdgeInsets.all(20.0),
+              padding: context.isSmall
+                  ? EdgeInsets.all(10)
+                  : EdgeInsets.all(20.0),
               child: Row(
                 children: [
                   Expanded(
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.pushNamed(context, '/fieldWork');
+                        Navigator.pushReplacementNamed(context, '/fieldWork');
                       },
                       child: _buildActionButton(
                         Icons.save,
@@ -91,33 +97,6 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
     );
   }
 
-  Widget _buildHeader(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
-          ),
-          const Expanded(
-            child: Center(
-              child: Text(
-                "Local Pulse: Ward 4",
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(width: 48), // Balance for back button
-        ],
-      ),
-    );
-  }
-
   Widget _buildPageIndicator() {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -139,8 +118,11 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
 
   Widget _buildPulseCard() {
     return Container(
-      margin: const EdgeInsets.all(20),
-      padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 40),
+      margin: EdgeInsets.all(context.isSmall ? 15 : 20),
+      padding: EdgeInsets.symmetric(
+        horizontal: context.isSmall ? 15 : 30,
+        vertical: context.isSmall ? 20 : 40,
+      ),
       decoration: BoxDecoration(
         color: const Color.fromARGB(
           255,
@@ -168,24 +150,20 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
               _buildCardIcon(Icons.account_balance),
             ],
           ),
-          const SizedBox(height: 40),
-          const Text(
+          SizedBox(height: context.isSmall ? 20 : 40),
+          Text(
             "People here care most about electricity & market safety",
-            style: TextStyle(
+            style: Theme.of(context).textTheme.titleMedium!.copyWith(
               color: Colors.black,
-              fontSize: 28,
               fontWeight: FontWeight.bold,
-              height: 1.1,
             ),
           ),
-          const SizedBox(height: 20),
-          const Text(
+          SizedBox(height: context.isSmall ? 10 : 20),
+          Text(
             "Analysis shows these two concerns correlate with high voter anxiety in this sector.",
-            style: TextStyle(
-              color: Color.fromARGB(186, 16, 24, 32),
-              fontSize: 16,
-              fontWeight: FontWeight.w500,
-            ),
+            style: Theme.of(
+              context,
+            ).textTheme.bodyLarge!.copyWith(color: Colors.black54),
           ),
           const Spacer(),
           Container(
@@ -209,12 +187,12 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
 
   Widget _buildCardIcon(IconData icon) {
     return Container(
-      padding: const EdgeInsets.all(12),
+      padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(12),
       decoration: const BoxDecoration(
         color: Colors.black12,
         shape: BoxShape.circle,
       ),
-      child: Icon(icon, color: Colors.black, size: 32),
+      child: Icon(icon, color: Colors.black, size: context.isSmall ? 22 : 32),
     );
   }
 
@@ -224,28 +202,30 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
     required bool isSecondary,
   }) {
     return Container(
-      height: 56,
+      height: context.screenHeight * 0.07,
       decoration: BoxDecoration(
         color: isSecondary
             ? Theme.of(context).colorScheme.tertiaryContainer
             : Theme.of(context).colorScheme.primary,
-        borderRadius: BorderRadius.circular(12),
-        border: isSecondary ? Border.all(color: Colors.white10) : null,
+        borderRadius: BorderRadius.circular(8),
+        border: isSecondary
+            ? Border.all(color: Theme.of(context).colorScheme.tertiaryFixedDim)
+            : null,
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Icon(
             icon,
-            color: Colors.white,
-            size: 30,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: context.isSmall ? 25 : 30,
             fontWeight: FontWeight.bold,
           ),
           const SizedBox(width: 10),
           Text(
             label,
-            style: const TextStyle(
-              color: Colors.white,
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.onSurface,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -256,22 +236,28 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
 
   Widget _buildNextStopFooter() {
     return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20),
-      padding: const EdgeInsets.all(16),
+      margin: EdgeInsets.symmetric(horizontal: context.isSmall ? 10 : 20),
+      padding: context.isSmall ? EdgeInsets.all(10) : EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.tertiaryContainer,
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white10),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.tertiaryFixedDim,
+        ),
       ),
       child: Row(
         children: [
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: const Color(0xFF381A1A),
+              color: Theme.of(context).colorScheme.primaryContainer,
               borderRadius: BorderRadius.circular(10),
             ),
-            child: const Icon(Icons.navigation, color: Color(0xFFC6102E)),
+            child: Icon(
+              Icons.navigation,
+              color: Theme.of(context).colorScheme.primary,
+              size: 20,
+            ),
           ),
           const SizedBox(width: 16),
           Expanded(
@@ -280,26 +266,21 @@ class _LocalPulseScreenState extends State<LocalPulseScreen> {
               children: [
                 Text(
                   "Next Stop",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 12,
                   ),
                 ),
-                const Text(
+                Text(
                   "12 Adeyemi Street, Ikeja",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 15,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
               ],
             ),
           ),
-          const Text(
+          Text(
             "2 min",
-            style: TextStyle(
-              color: Color(0xFFC6102E),
+            style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
               fontWeight: FontWeight.bold,
             ),
           ),

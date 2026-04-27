@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:eagle_badger/utils/responsive_helper.dart';
 
 class LanguageCard extends StatelessWidget {
   const LanguageCard({
@@ -21,12 +22,13 @@ class LanguageCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 250),
-          padding: const EdgeInsets.symmetric(vertical: 30, horizontal: 24),
+          padding: context.isSmall
+              ? EdgeInsets.symmetric(vertical: 22, horizontal: 16)
+              : EdgeInsets.symmetric(vertical: 30, horizontal: 24),
           decoration: BoxDecoration(
             color: const Color(0xFF1A0F0F),
             borderRadius: BorderRadius.circular(12),
             border: Border.all(
-              // Toggle between your brand red and a subtle grey
               color: isSelected
                   ? const Color(0xFFC6102E)
                   : const Color(0xFF2D2D2D),
@@ -35,10 +37,9 @@ class LanguageCard extends StatelessWidget {
           ),
           child: Text(
             title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w600,
-              fontSize: 16,
+            style: Theme.of(context).textTheme.bodyLarge!.copyWith(
+              fontSize: context.isSmall ? 14 : 16,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
           ),
         ),

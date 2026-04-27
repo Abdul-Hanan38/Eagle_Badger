@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class DashboardScreen extends StatelessWidget {
@@ -23,8 +25,8 @@ class DashboardScreen extends StatelessWidget {
 
               Row(
                 children: [
-                  const CircleAvatar(
-                    radius: 25,
+                  CircleAvatar(
+                    radius: context.isSmall ? 15 : 25,
                     backgroundImage: AssetImage(
                       'assets/images/user_profile.png',
                     ),
@@ -36,32 +38,33 @@ class DashboardScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Field Agent",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary,
-                            fontSize: 12,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.bodySmall!
+                              .copyWith(
+                                color: Theme.of(context).colorScheme.onPrimary,
+                                fontWeight: FontWeight.bold,
+                              ),
                         ),
                         Text(
                           "Good morning, Sharon",
-                          style: TextStyle(
-                            color: Theme.of(context).colorScheme.onSurface,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: Theme.of(context).textTheme.titleSmall,
                         ),
                       ],
                     ),
                   ),
                   Container(
-                    padding: const EdgeInsets.all(8),
-                    decoration: const BoxDecoration(
-                      color: Color.fromARGB(255, 52, 34, 34),
+                    padding: context.isSmall
+                        ? EdgeInsets.all(4)
+                        : EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.onSecondaryFixedVariant,
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
                       Icons.notifications,
                       color: Theme.of(context).colorScheme.onSurface,
+                      size: context.isSmall ? 15 : 30,
                     ),
                   ),
                 ],
@@ -71,17 +74,22 @@ class DashboardScreen extends StatelessWidget {
 
               // --- SYNC STATUS CARD ---
               Container(
-                padding: const EdgeInsets.all(15),
+                padding: context.isSmall
+                    ? EdgeInsets.all(7)
+                    : EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 39, 28, 29),
-                  borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Color.fromARGB(255, 66, 52, 54)),
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.tertiaryFixedDim,
+                  ),
                 ),
                 child: Row(
                   children: [
                     Icon(
                       Icons.check_circle,
                       color: Theme.of(context).colorScheme.onSurface,
+                      size: context.isSmall ? 15 : 30,
                     ),
                     const SizedBox(width: 10),
                     Text(
@@ -91,14 +99,16 @@ class DashboardScreen extends StatelessWidget {
                       ),
                     ),
                     const Spacer(),
-                    const Icon(Icons.circle, color: Colors.green, size: 8),
+                    Icon(
+                      Icons.circle,
+                      color: Theme.of(context).colorScheme.tertiaryFixed,
+                      size: context.isSmall ? 4 : 8,
+                    ),
                     const SizedBox(width: 5),
-                    const Text(
+                    Text(
                       "Live",
-                      style: TextStyle(
-                        color: Color.fromARGB(255, 185, 157, 161),
-                        fontSize: 14,
-                        fontWeight: FontWeight.bold,
+                      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                        color: Theme.of(context).colorScheme.onPrimary,
                       ),
                     ),
                   ],
@@ -110,9 +120,11 @@ class DashboardScreen extends StatelessWidget {
               Container(
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  color: const Color(0xFF271C1D),
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: const Color(0xFF423436)),
+                  border: Border.all(
+                    color: Theme.of(context).colorScheme.tertiaryFixedDim,
+                  ),
                 ),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
@@ -126,7 +138,7 @@ class DashboardScreen extends StatelessWidget {
                           ),
                           child: Image.asset(
                             'assets/images/map_placeholder.png',
-                            height: 150,
+                            height: context.isSmall ? 120 : 150,
                             width: double.infinity,
                             fit: BoxFit.cover,
                           ),
@@ -162,13 +174,13 @@ class DashboardScreen extends StatelessWidget {
                               color: const Color.fromARGB(174, 198, 16, 46),
                               borderRadius: BorderRadius.circular(20),
                             ),
-                            child: const Text(
+                            child: Text(
                               "Primary Zone",
-                              style: TextStyle(
-                                color: Color.fromARGB(229, 255, 255, 255),
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.bodyMedium!
+                                  .copyWith(
+                                    color: Color.fromARGB(229, 255, 255, 255),
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ),
                         ),
@@ -180,22 +192,26 @@ class DashboardScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const Text(
+                          Text(
                             "Assigned Polling Unit",
-                            style: TextStyle(
-                              color: Color(0xFFB99DA1),
-                              fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.bodyMedium!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onPrimary,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                           const SizedBox(height: 4),
                           Text(
-                            "PU: 02/14/05/001", // Or your variable 'pollingUnit'
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            "PU: 02/14/05/001",
+                            style: Theme.of(context).textTheme.titleSmall!
+                                .copyWith(
+                                  color: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold,
+                                ),
                           ),
                           const SizedBox(height: 12),
                           Row(
@@ -209,17 +225,19 @@ class DashboardScreen extends StatelessWidget {
                                     color: Theme.of(
                                       context,
                                     ).colorScheme.onPrimary,
-                                    size: 16,
+                                    size: context.isSmall ? 14 : 16,
                                   ),
                                   SizedBox(width: 4),
                                   Text(
                                     "Central High School",
-                                    style: TextStyle(
-                                      color: Theme.of(
-                                        context,
-                                      ).colorScheme.onPrimary,
-                                      fontSize: 13,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .bodyMedium!
+                                        .copyWith(
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onPrimary,
+                                        ),
                                   ),
                                 ],
                               ),
@@ -228,24 +246,38 @@ class DashboardScreen extends StatelessWidget {
                               ElevatedButton.icon(
                                 onPressed: () {},
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: const Color(0xFF39282B),
-                                  foregroundColor: Colors.white,
+                                  backgroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSecondaryFixed,
+                                  foregroundColor: Theme.of(
+                                    context,
+                                  ).colorScheme.onSurface,
                                   elevation: 0,
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 12,
-                                    vertical: 8,
+                                  padding: EdgeInsets.symmetric(
+                                    horizontal: context.isSmall ? 10 : 12,
+                                    vertical: context.isSmall ? 6 : 8,
                                   ),
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(8),
-                                    side: const BorderSide(
-                                      color: Color(0xFF423436),
+                                    side: BorderSide(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSecondaryFixedVariant,
                                     ),
                                   ),
                                 ),
-                                icon: const Icon(Icons.map, size: 16),
-                                label: const Text(
+                                icon: Icon(
+                                  Icons.map,
+                                  size: context.isSmall ? 14 : 16,
+                                ),
+                                label: Text(
                                   "Map",
-                                  style: TextStyle(fontSize: 12),
+                                  style: Theme.of(context).textTheme.bodyMedium!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onSurface,
+                                      ),
                                 ),
                               ),
                             ],
@@ -261,10 +293,8 @@ class DashboardScreen extends StatelessWidget {
               Center(
                 child: Text(
                   "Today's Performance",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyLarge!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
                   ),
                 ),
               ),
@@ -281,11 +311,11 @@ class DashboardScreen extends StatelessWidget {
                       alignment: Alignment.center,
                       children: [
                         SizedBox(
-                          height: 150,
-                          width: 150,
+                          height: context.isSmall ? 120 : 150,
+                          width: context.isSmall ? 120 : 150,
                           child: CircularProgressIndicator(
                             value: value,
-                            strokeWidth: 12,
+                            strokeWidth: context.isSmall ? 8 : 12,
                             backgroundColor: Colors.black,
                             valueColor: AlwaysStoppedAnimation<Color>(
                               Theme.of(context).colorScheme.onSurface,
@@ -297,19 +327,22 @@ class DashboardScreen extends StatelessWidget {
                           children: [
                             Text(
                               "${(value * 100).toInt()}%",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onSurface,
-                                fontSize: 34,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.titleLarge!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onSurface,
+                                  ),
                             ),
                             Text(
                               "Complete",
-                              style: TextStyle(
-                                color: Theme.of(context).colorScheme.onPrimary,
-                                fontSize: 12,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              style: Theme.of(context).textTheme.bodySmall!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.onPrimary,
+                                    fontWeight: FontWeight.bold,
+                                  ),
                             ),
                           ],
                         ),
@@ -323,9 +356,9 @@ class DashboardScreen extends StatelessWidget {
 
               Row(
                 children: [
-                  _buildStatBox("13", "Contacted"),
+                  _buildStatBox(context, "13", "Contacted"),
                   const SizedBox(width: 15),
-                  _buildStatBox("07", "Remaining"),
+                  _buildStatBox(context, "07", "Remaining"),
                 ],
               ),
 
@@ -335,9 +368,13 @@ class DashboardScreen extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.all(15),
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 39, 28, 29),
+                  color: Theme.of(context).colorScheme.tertiaryContainer,
                   borderRadius: BorderRadius.circular(15),
-                  border: Border.all(color: Color.fromARGB(255, 66, 52, 54)),
+                  border: Border.all(
+                    color: Theme.of(
+                      context,
+                    ).colorScheme.onSecondaryFixedVariant,
+                  ),
                 ),
                 child: Column(
                   children: [
@@ -376,32 +413,10 @@ class DashboardScreen extends StatelessWidget {
               const SizedBox(height: 60),
 
               Center(
-                child: SizedBox(
-                  width: 320,
-                  height: 55,
-                  child: ElevatedButton.icon(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/dailyRoute');
-                    },
-                    icon: const Icon(
-                      Icons.play_arrow,
-                      color: Colors.white,
-                      size: 28,
-                    ),
-                    label: Text(
-                      "START FIELD WORK",
-                      style: TextStyle(
-                        color: Theme.of(context).colorScheme.onSurface,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
+                child: CustomButton(
+                  title: 'Start Field Work',
+                  leftIcon: Icons.play_arrow,
+                  onPressed: () => Navigator.pushNamed(context, '/dailyRoute'),
                 ),
               ),
               const SizedBox(height: 20),
@@ -412,30 +427,31 @@ class DashboardScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStatBox(String value, String label) {
+  Widget _buildStatBox(BuildContext context, String value, String label) {
     return Expanded(
       child: Container(
-        padding: const EdgeInsets.all(15),
+        padding: context.isSmall
+            ? EdgeInsets.symmetric(horizontal: 6, vertical: 12)
+            : EdgeInsets.symmetric(horizontal: 10, vertical: 16),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 39, 28, 29),
+          color: Theme.of(context).colorScheme.tertiaryContainer,
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: Color.fromARGB(255, 66, 52, 54)),
+          border: Border.all(
+            color: Theme.of(context).colorScheme.onSecondaryFixedVariant,
+          ),
         ),
         child: Column(
           children: [
             Text(
               value,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              style: Theme.of(context).textTheme.titleSmall!.copyWith(
+                color: Theme.of(context).colorScheme.onSurface,
               ),
             ),
             Text(
               label,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 185, 157, 161),
-                fontSize: 12,
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                color: Theme.of(context).colorScheme.onPrimary,
                 fontWeight: FontWeight.bold,
               ),
             ),

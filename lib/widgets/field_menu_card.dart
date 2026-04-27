@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class FieldMenuCard extends StatelessWidget {
@@ -17,7 +18,7 @@ class FieldMenuCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: context.isSmall ? EdgeInsets.all(8) : EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: backgroundColor,
         borderRadius: BorderRadius.circular(10),
@@ -36,19 +37,16 @@ class FieldMenuCard extends StatelessWidget {
                 green: 0.3,
               ),
             ),
-            child: Icon(icon, color: Colors.white, size: 24),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            title,
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+            child: Icon(
+              icon,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: context.isSmall ? 16 : 24,
             ),
           ),
+          SizedBox(height: 16),
+          Text(title, style: Theme.of(context).textTheme.bodyLarge),
+
           const Spacer(),
-          // Generate buttons from the Map entries
           ...actions.entries.map(
             (entry) => Padding(
               padding: const EdgeInsets.only(bottom: 8),
@@ -58,15 +56,13 @@ class FieldMenuCard extends StatelessWidget {
                   children: [
                     Text(
                       entry.key,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                        color: Theme.of(context).colorScheme.onSurface,
                       ),
                     ),
-                    const Icon(
+                    Icon(
                       Icons.chevron_right,
-                      color: Colors.white,
+                      color: Theme.of(context).colorScheme.onSurface,
                       size: 16,
                     ),
                   ],

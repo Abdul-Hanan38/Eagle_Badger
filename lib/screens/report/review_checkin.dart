@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 
 class ReviewCheckInScreen extends StatelessWidget {
@@ -7,99 +9,81 @@ class ReviewCheckInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        surfaceTintColor: Colors.transparent,
-        leading: IconButton(
-          icon: const Icon(
-            Icons.arrow_back_ios_new,
-            color: Colors.white,
-            size: 20,
-          ),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: const Text(
-          "Review Check-In",
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 22,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
-        centerTitle: true,
+      appBar: CustomAppBar(
+        title: 'Review Check-In',
+        onBackTap: () => Navigator.pop(context),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.symmetric(horizontal: 24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Summary Overview",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            const SizedBox(height: 8),
-            Text(
-              "Please verify the details of your interaction before submitting to the campaign database.",
-              style: Theme.of(context).textTheme.bodyMedium!.copyWith(
-                color: Theme.of(context).colorScheme.onPrimary,
+        padding: context.isSmall
+            ? EdgeInsets.all(20)
+            : EdgeInsets.symmetric(horizontal: 24),
+        child: SafeArea(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Summary Overview",
+                style: Theme.of(context).textTheme.titleLarge,
               ),
-            ),
-            const SizedBox(height: 20),
-
-            // GPS Status Box
-            _buildGpsStatusBox(context),
-
-            const SizedBox(height: 30),
-            Text(
-              "Interaction Details",
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-            const SizedBox(height: 12),
-
-            // Detail Card
-            _buildInteractionDetailCard(context),
-
-            const SizedBox(height: 30),
-            const Text(
-              "Logged Location",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 12),
-
-            // Map Placeholder
-            _buildMapSection(),
-
-            const SizedBox(height: 20),
-
-            // Volunteer Notes Box
-            _buildNotesBox(context),
-
-            const SizedBox(height: 40),
-
-            // Submit Button
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/resultSheet');
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Theme.of(context).colorScheme.primary,
-                minimumSize: const Size(double.infinity, 56),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+              const SizedBox(height: 8),
+              Text(
+                "Please verify the details of your interaction before submitting to the campaign database.",
+                style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
                 ),
               ),
-              child: Text(
-                "Submit Check-In",
-                style: Theme.of(context).textTheme.labelLarge,
+              const SizedBox(height: 20),
+
+              // GPS Status Box
+              _buildGpsStatusBox(context),
+
+              const SizedBox(height: 30),
+              Text(
+                "Interaction Details",
+                style: Theme.of(context).textTheme.titleMedium,
               ),
-            ),
-            const SizedBox(height: 30),
-          ],
+              const SizedBox(height: 12),
+
+              // Detail Card
+              _buildInteractionDetailCard(context),
+
+              const SizedBox(height: 30),
+              Text(
+                "Logged Location",
+                style: Theme.of(context).textTheme.labelMedium,
+              ),
+              const SizedBox(height: 12),
+
+              // Map Placeholder
+              _buildMapSection(context),
+
+              const SizedBox(height: 20),
+
+              // Volunteer Notes Box
+              _buildNotesBox(context),
+
+              const SizedBox(height: 40),
+
+              // Submit Button
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/resultSheet');
+                },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Theme.of(context).colorScheme.primary,
+                  minimumSize: const Size(double.infinity, 56),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Text(
+                  "Submit Check-In",
+                  style: Theme.of(context).textTheme.labelMedium,
+                ),
+              ),
+              const SizedBox(height: 30),
+            ],
+          ),
         ),
       ),
     );
@@ -135,9 +119,13 @@ class ReviewCheckInScreen extends StatelessWidget {
               ],
             ),
           ),
-          const CircleAvatar(
+          CircleAvatar(
             backgroundColor: Color(0xFF2E3D2E),
-            child: Icon(Icons.location_on, color: Colors.white, size: 20),
+            child: Icon(
+              Icons.location_on,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: 20,
+            ),
           ),
         ],
       ),
@@ -146,7 +134,7 @@ class ReviewCheckInScreen extends StatelessWidget {
 
   Widget _buildInteractionDetailCard(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: context.isSmall ? EdgeInsets.all(10) : EdgeInsets.all(20),
       decoration: BoxDecoration(
         color: Theme.of(context).colorScheme.onSecondaryFixed,
         borderRadius: BorderRadius.circular(16),
@@ -208,15 +196,19 @@ class ReviewCheckInScreen extends StatelessWidget {
             children: [
               Text(
                 value,
-                style: TextStyle(
-                  color: isPositive ? Colors.green : Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 14,
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: isPositive
+                      ? Theme.of(context).colorScheme.tertiaryFixed
+                      : Theme.of(context).colorScheme.onSurface,
                 ),
               ),
               if (showIcon) ...[
                 const SizedBox(width: 8),
-                const Icon(Icons.thumb_up, color: Colors.green, size: 14),
+                Icon(
+                  Icons.thumb_up,
+                  color: Theme.of(context).colorScheme.tertiaryFixed,
+                  size: 14,
+                ),
               ],
             ],
           ),
@@ -225,7 +217,7 @@ class ReviewCheckInScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildMapSection() {
+  Widget _buildMapSection(BuildContext context) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(16),
       child: Stack(
@@ -245,9 +237,11 @@ class ReviewCheckInScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(4),
                 color: Colors.black54,
               ),
-              child: const Text(
+              child: Text(
                 "Lat: 38.8977° N, Lon: 77.0365° W",
-                style: TextStyle(color: Colors.white, fontSize: 10),
+                style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  color: Theme.of(context).colorScheme.onSurface,
+                ),
               ),
             ),
           ),

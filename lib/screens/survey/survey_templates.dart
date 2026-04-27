@@ -25,7 +25,9 @@ class SelectionButton extends StatelessWidget {
         width: double.infinity,
         decoration: BoxDecoration(
           // Grey by default, Red when selected
-          color: isSelected ? const Color(0xFFC6102E) : const Color(0xFF1C1C1E),
+          color: isSelected
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.onSecondaryContainer,
           borderRadius: BorderRadius.circular(16),
           border: Border.all(
             color: isSelected ? Colors.white24 : Colors.transparent,
@@ -35,16 +37,13 @@ class SelectionButton extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, color: Colors.white, size: 30),
-            const SizedBox(height: 10),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
+            Icon(
+              icon,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: 30,
             ),
+            const SizedBox(height: 10),
+            Text(label, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),

@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:eagle_badger/widgets/fill_selection_card.dart';
 import 'package:eagle_badger/widgets/grid_selection_card.dart';
 import 'package:eagle_badger/widgets/selection_card.dart';
@@ -13,11 +14,11 @@ class VoterProfilingScreen extends StatefulWidget {
 
 class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
   final PageController _pageController = PageController();
+
   int _currentStep = 1;
   final int _totalSteps = 6;
 
   List<Map<String, dynamic>> savedInteractions = [];
-
   String? _intentChoice;
   String? _patternChoice;
   String? _pvcChoice;
@@ -47,11 +48,9 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
       'note': _noteText,
       'timestamp': DateTime.now().toString(),
     };
-
     setState(() {
       savedInteractions.add(newInteraction);
     });
-
     _showSuccessDialog();
   }
 
@@ -104,29 +103,35 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
   @override
   Widget build(BuildContext context) {
     bool isLastStep = _currentStep == _totalSteps;
-
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: AppBar(
-        backgroundColor: Colors.transparent,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         elevation: 0,
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+          icon: Icon(
+            Icons.arrow_back_ios_new,
+            color: Theme.of(context).colorScheme.onSurface,
+            size: 20,
+          ),
           onPressed: () => Navigator.pop(context),
         ),
         title: Text(
           isLastStep ? "Quick Note" : "Voter Profiling",
-          style: const TextStyle(color: Colors.white, fontSize: 22),
+          style: Theme.of(context).textTheme.titleSmall,
         ),
         bottom: isLastStep
             ? null
             : PreferredSize(
-                preferredSize: const Size.fromHeight(70),
+                preferredSize: Size.fromHeight(context.isSmall ? 50 : 70),
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
                     children: [
-                      const Divider(color: Colors.white10, thickness: 1),
+                      Divider(
+                        color: Theme.of(context).colorScheme.tertiaryFixedDim,
+                        thickness: 1,
+                      ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -148,9 +153,11 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                       const SizedBox(height: 8),
                       LinearProgressIndicator(
                         value: _currentStep / 5,
-                        backgroundColor: Colors.white10,
+                        backgroundColor: Theme.of(
+                          context,
+                        ).colorScheme.tertiaryFixedDim,
                         color: Theme.of(context).colorScheme.primary,
-                        minHeight: 8,
+                        minHeight: context.isSmall ? 4 : 8,
                         borderRadius: BorderRadius.circular(10),
                       ),
                       const SizedBox(height: 10),
@@ -159,179 +166,183 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
                 ),
               ),
       ),
-      body: PageView(
-        controller: _pageController,
-        physics: const BouncingScrollPhysics(), // Swipeable pages
-        onPageChanged: (index) => setState(() => _currentStep = index + 1),
-        children: [
-          // STEP 1: Intent
-          SurveyStepLayout(
-            profile: 'John Doe',
-            title:
-                "Do you intent to vote in the upcoming presidential election?",
-            content: Column(
-              children: [
-                SelectionCard(
-                  label: "Yes",
-                  subLabel: "Selected",
-                  isSelected: _intentChoice == "Yes",
-                  onTap: () => setState(() => _intentChoice = "Yes"),
-                ),
-                SelectionCard(
-                  label: "No",
-                  subLabel: "Uncommitted",
-                  isSelected: _intentChoice == "No",
-                  onTap: () => setState(() => _intentChoice = "No"),
-                ),
-              ],
-            ),
-          ),
-          // STEP 2: Pattern
-          SurveyStepLayout(
-            title: "Past voting pattern known?",
-            description: "Select the profile based on historical data.",
-            content: Column(
-              children: [
-                FillSelectionCard(
-                  label: "Yes",
-                  isSelected: _patternChoice == "Yes",
-                  icon: Icons.check_circle,
-                  onTap: () => setState(() => _patternChoice = "Yes"),
-                ),
-                FillSelectionCard(
-                  label: "No",
-                  isSelected: _patternChoice == "No",
-                  icon: Icons.cancel_rounded,
-                  onTap: () => setState(() => _patternChoice = "No"),
-                ),
-              ],
-            ),
-          ),
-          // STEP 3: PVC
-          SurveyStepLayout(
-            title: "PVC available?",
-            description:
-                "Verify if the voters have their Permanent Voter Card on hand.",
-            content: Column(
-              children: [
-                FillSelectionCard(
-                  label: "Yes",
-                  isSelected: _pvcChoice == "Yes",
-                  icon: Icons.check_circle,
-                  onTap: () => setState(() => _pvcChoice = "Yes"),
-                ),
-                FillSelectionCard(
-                  label: "No",
-                  isSelected: _pvcChoice == "No",
-                  icon: Icons.cancel_rounded,
-                  onTap: () => setState(() => _pvcChoice = "No"),
-                ),
-              ],
-            ),
-          ),
-          // STEP 4: Concern
-          SurveyStepLayout(
-            title: "What is the main Concern?",
-            content: SingleChildScrollView(
-              child: Column(
+      body: SafeArea(
+        child: PageView(
+          controller: _pageController,
+          physics: const BouncingScrollPhysics(),
+          onPageChanged: (index) => setState(() => _currentStep = index + 1),
+          children: [
+            // STEP 1: Intent
+            SurveyStepLayout(
+              profile: 'John Doe',
+              title:
+                  "Do you intent to vote in the upcoming presidential election?",
+              content: Column(
                 children: [
-                  GridView.count(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 16,
-                    mainAxisSpacing: 16,
-                    childAspectRatio: 0.9,
-                    children: [
-                      GridSelectionCard(
-                        label: "Economy",
-                        icon: Icons.map,
-                        isSelected: _selectedConcern == "Economy",
-                        onTap: () =>
-                            setState(() => _selectedConcern = "Economy"),
-                      ),
-                      GridSelectionCard(
-                        label: "Electricity",
-                        icon: Icons.lightbulb,
-                        isSelected: _selectedConcern == "Electricity",
-                        onTap: () =>
-                            setState(() => _selectedConcern = "Electricity"),
-                      ),
-                      GridSelectionCard(
-                        label: "Security",
-                        icon: Icons.hub,
-                        isSelected: _selectedConcern == "Security",
-                        onTap: () =>
-                            setState(() => _selectedConcern = "Security"),
-                      ),
-                      GridSelectionCard(
-                        label: "Corruption",
-                        icon: Icons.balance,
-                        isSelected: _selectedConcern == "Corruption",
-                        onTap: () =>
-                            setState(() => _selectedConcern = "Corruption"),
-                      ),
-                    ],
+                  SelectionCard(
+                    label: "Yes",
+                    subLabel: "Selected",
+                    isSelected: _intentChoice == "Yes",
+                    onTap: () => setState(() => _intentChoice = "Yes"),
                   ),
-                  const SizedBox(height: 20),
-                  OtherConcernTile(
-                    isSelected: _selectedConcern == "Other",
-                    onTap: () => setState(() => _selectedConcern = "Other"),
+                  SelectionCard(
+                    label: "No",
+                    subLabel: "Uncommitted",
+                    isSelected: _intentChoice == "No",
+                    onTap: () => setState(() => _intentChoice = "No"),
                   ),
                 ],
               ),
             ),
-          ),
-          // STEP 5: Party
-          SurveyStepLayout(
-            title: "Which will vote for?",
-            content: GridView.count(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              crossAxisCount: 2,
-              crossAxisSpacing: 16,
-              mainAxisSpacing: 16,
-              childAspectRatio: 1.0,
-              children: [
-                FillGridCard(
-                  label: "APC",
-                  isSelected: _selectedParty == "APC",
-                  onTap: () => setState(() => _selectedParty = "APC"),
-                ),
-                FillGridCard(
-                  label: "PDP",
-                  isSelected: _selectedParty == "PDP",
-                  onTap: () => setState(() => _selectedParty = "PDP"),
-                ),
-                FillGridCard(
-                  label: "ADC",
-                  isSelected: _selectedParty == "ADC",
-                  onTap: () => setState(() => _selectedParty = "ADC"),
-                ),
-                FillGridCard(
-                  label: "LP",
-                  isSelected: _selectedParty == "LP",
-                  onTap: () => setState(() => _selectedParty = "LP"),
-                ),
-              ],
+
+            // STEP 2: Pattern
+            SurveyStepLayout(
+              title: "Past voting pattern known?",
+              description: "Select the profile based on historical data.",
+              content: Column(
+                children: [
+                  FillSelectionCard(
+                    label: "Yes",
+                    isSelected: _patternChoice == "Yes",
+                    icon: Icons.check_circle,
+                    onTap: () => setState(() => _patternChoice = "Yes"),
+                  ),
+                  FillSelectionCard(
+                    label: "No",
+                    isSelected: _patternChoice == "No",
+                    icon: Icons.cancel_rounded,
+                    onTap: () => setState(() => _patternChoice = "No"),
+                  ),
+                ],
+              ),
             ),
-          ),
-          // STEP 6: Quick Note
-          _buildQuickNoteStep(),
-        ],
+
+            // STEP 3: PVC
+            SurveyStepLayout(
+              title: "PVC available?",
+              description:
+                  "Verify if the voters have their Permanent Voter Card on hand.",
+              content: Column(
+                children: [
+                  FillSelectionCard(
+                    label: "Yes",
+                    isSelected: _pvcChoice == "Yes",
+                    icon: Icons.check_circle,
+                    onTap: () => setState(() => _pvcChoice = "Yes"),
+                  ),
+                  FillSelectionCard(
+                    label: "No",
+                    isSelected: _pvcChoice == "No",
+                    icon: Icons.cancel_rounded,
+                    onTap: () => setState(() => _pvcChoice = "No"),
+                  ),
+                ],
+              ),
+            ),
+
+            // STEP 4: Concern
+            SurveyStepLayout(
+              title: "What is the main Concern?",
+              content: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    GridView.count(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 16,
+                      mainAxisSpacing: 16,
+                      childAspectRatio: 0.9,
+                      children: [
+                        GridSelectionCard(
+                          label: "Economy",
+                          icon: Icons.map,
+                          isSelected: _selectedConcern == "Economy",
+                          onTap: () =>
+                              setState(() => _selectedConcern = "Economy"),
+                        ),
+                        GridSelectionCard(
+                          label: "Electricity",
+                          icon: Icons.lightbulb,
+                          isSelected: _selectedConcern == "Electricity",
+                          onTap: () =>
+                              setState(() => _selectedConcern = "Electricity"),
+                        ),
+                        GridSelectionCard(
+                          label: "Security",
+                          icon: Icons.hub,
+                          isSelected: _selectedConcern == "Security",
+                          onTap: () =>
+                              setState(() => _selectedConcern = "Security"),
+                        ),
+                        GridSelectionCard(
+                          label: "Corruption",
+                          icon: Icons.balance,
+                          isSelected: _selectedConcern == "Corruption",
+                          onTap: () =>
+                              setState(() => _selectedConcern = "Corruption"),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 20),
+                    OtherConcernTile(
+                      isSelected: _selectedConcern == "Other",
+                      onTap: () => setState(() => _selectedConcern = "Other"),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // STEP 5: Party
+            SurveyStepLayout(
+              title: "Which will vote for?",
+              content: GridView.count(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                crossAxisCount: 2,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 16,
+                childAspectRatio: 1,
+                children: [
+                  FillGridCard(
+                    label: "APC",
+                    isSelected: _selectedParty == "APC",
+                    onTap: () => setState(() => _selectedParty = "APC"),
+                  ),
+                  FillGridCard(
+                    label: "PDP",
+                    isSelected: _selectedParty == "PDP",
+                    onTap: () => setState(() => _selectedParty = "PDP"),
+                  ),
+                  FillGridCard(
+                    label: "ADC",
+                    isSelected: _selectedParty == "ADC",
+                    onTap: () => setState(() => _selectedParty = "ADC"),
+                  ),
+                  FillGridCard(
+                    label: "LP",
+                    isSelected: _selectedParty == "LP",
+                    onTap: () => setState(() => _selectedParty = "LP"),
+                  ),
+                ],
+              ),
+            ),
+            // STEP 6: Quick Note
+            _buildQuickNoteStep(),
+          ],
+        ),
       ),
       bottomNavigationBar: _buildBottomButton(context),
     );
   }
 
   // --- COMPONENT WIDGETS ---
-
   Widget _buildQuickNoteStep() {
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 24),
       child: Column(
         children: [
-          const SizedBox(height: 30),
+          SizedBox(height: context.isSmall ? 15 : 30),
           Text(
             "Tap to Record Voice Note",
             style: Theme.of(context).textTheme.titleMedium,
@@ -365,9 +376,11 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
               maxLines: null,
               onChanged: (val) => _noteText = val,
               style: TextStyle(color: Theme.of(context).colorScheme.tertiary),
-              decoration: const InputDecoration(
+              decoration: InputDecoration(
                 hintText: "Type a quick summary of the interaction...",
-                hintStyle: TextStyle(color: Colors.grey, fontSize: 14),
+                hintStyle: Theme.of(
+                  context,
+                ).textTheme.bodyMedium!.copyWith(fontWeight: FontWeight.bold),
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(16),
               ),
@@ -392,14 +405,18 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
     return GestureDetector(
       onTap: () => setState(() => _isRecording = !_isRecording),
       child: Container(
-        padding: const EdgeInsets.all(30),
+        padding: context.isSmall ? EdgeInsets.all(15) : EdgeInsets.all(30),
         decoration: BoxDecoration(
           color: isRecording
-              ? const Color(0xFFC6102E)
-              : const Color(0xFF381A1A),
+              ? Theme.of(context).colorScheme.primary
+              : Theme.of(context).colorScheme.primaryContainer,
           shape: BoxShape.circle,
         ),
-        child: const Icon(Icons.mic, color: Colors.white, size: 48),
+        child: Icon(
+          Icons.mic,
+          color: Theme.of(context).colorScheme.onSurface,
+          size: context.isSmall ? 38 : 48,
+        ),
       ),
     );
   }
@@ -407,9 +424,9 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
   Widget _buildMetadataRow(IconData icon, String text) {
     return Row(
       children: [
-        Icon(icon, color: Colors.grey, size: 16),
+        Icon(icon, color: Theme.of(context).colorScheme.primaryFixed, size: 16),
         const SizedBox(width: 8),
-        Text(text, style: const TextStyle(color: Colors.grey, fontSize: 12)),
+        Text(text, style: Theme.of(context).textTheme.bodySmall),
       ],
     );
   }
@@ -419,7 +436,7 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
       padding: const EdgeInsets.fromLTRB(20, 10, 20, 30),
       color: Theme.of(context).colorScheme.surface,
       child: SizedBox(
-        height: 56,
+        height: context.isSmall ? 50 : 56,
         width: double.infinity,
         child: ElevatedButton(
           onPressed: _onContinue,
@@ -431,7 +448,7 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
           ),
           child: Text(
             _currentStep == _totalSteps ? "Save Interaction" : "Continue",
-            style: Theme.of(context).textTheme.labelLarge,
+            style: Theme.of(context).textTheme.labelMedium,
           ),
         ),
       ),
@@ -440,12 +457,9 @@ class _VoterProfilingScreenState extends State<VoterProfilingScreen> {
 }
 
 //-- Check Mark --
-
 class CheckmarkPainter extends CustomPainter {
   final double progress;
-
   CheckmarkPainter(this.progress);
-
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
@@ -453,13 +467,10 @@ class CheckmarkPainter extends CustomPainter {
       ..strokeWidth = 6.0
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke;
-
     final path = Path();
-
     path.moveTo(size.width * 0.2, size.height * 0.5);
     path.lineTo(size.width * 0.45, size.height * 0.7);
     path.lineTo(size.width * 0.8, size.height * 0.3);
-
     final metrics = path.computeMetrics();
     for (final metric in metrics) {
       final extractPath = metric.extractPath(0.0, metric.length * progress);

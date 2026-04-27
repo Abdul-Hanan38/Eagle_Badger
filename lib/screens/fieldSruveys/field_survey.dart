@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'resident_tile.dart';
 
@@ -32,24 +34,26 @@ class FieldSurveyScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Text(
+                          Text(
                             "Residents",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                            style: Theme.of(context).textTheme.bodyLarge!
+                                .copyWith(fontSize: context.isSmall ? 16 : 18),
                           ),
                           TextButton.icon(
                             onPressed: () {},
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.schedule,
-                              color: Colors.red,
+                              color: Theme.of(context).colorScheme.primary,
                               size: 16,
                             ),
-                            label: const Text(
+                            label: Text(
                               "History",
-                              style: TextStyle(color: Colors.red, fontSize: 14),
+                              style: Theme.of(context).textTheme.bodyLarge!
+                                  .copyWith(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primary,
+                                  ),
                             ),
                           ),
                         ],
@@ -92,7 +96,14 @@ class FieldSurveyScreen extends StatelessWidget {
         ),
       ),
       // --- Navigation BUTTON ---
-      bottomNavigationBar: _buildStartButton(context),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15),
+        child: CustomButton(
+          title: 'Start Interaction',
+          leftIcon: Icons.play_arrow,
+          onPressed: () => Navigator.pushNamed(context, '/voterProfiling'),
+        ),
+      ),
     );
   }
 
@@ -103,26 +114,25 @@ class FieldSurveyScreen extends StatelessWidget {
         children: [
           IconButton(
             onPressed: () => Navigator.pop(context),
-            icon: const Icon(Icons.arrow_back_ios_new, color: Colors.white),
+            icon: Icon(
+              Icons.arrow_back_ios_new,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: context.isSmall ? 18 : 20,
+            ),
           ),
-          const SizedBox(width: 50),
+          SizedBox(width: context.screenWidth * 0.05),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   "Ward 12 - Neighborhood",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: Theme.of(context).textTheme.bodyLarge,
                 ),
                 Text(
                   "Campaign Route Alpha",
-                  style: TextStyle(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    fontSize: 14,
                   ),
                 ),
               ],
@@ -130,10 +140,10 @@ class FieldSurveyScreen extends StatelessWidget {
           ),
           IconButton(
             onPressed: () {},
-            icon: const Icon(
+            icon: Icon(
               Icons.more_vert,
-              color: Colors.white,
-              size: 30,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: context.isSmall ? 20 : 25,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -146,7 +156,7 @@ class FieldSurveyScreen extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 20),
       decoration: BoxDecoration(
-        color: const Color.fromARGB(255, 39, 28, 29),
+        color: Theme.of(context).colorScheme.onSecondaryFixed,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Column(
@@ -156,7 +166,7 @@ class FieldSurveyScreen extends StatelessWidget {
           ClipRRect(
             child: Image.asset(
               'assets/images/map_placeholder.png',
-              height: 180,
+              height: context.screenHeight * 0.20,
               width: double.infinity,
               fit: BoxFit.cover,
             ),
@@ -176,37 +186,38 @@ class FieldSurveyScreen extends StatelessWidget {
                     ),
                     Text(
                       "HH-90210",
-                      style: TextStyle(
+                      style: Theme.of(context).textTheme.bodySmall!.copyWith(
                         color: Theme.of(context).colorScheme.onPrimary,
-                        fontSize: 12,
                       ),
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                const Text(
+                SizedBox(height: context.screenHeight * 0.01),
+                Text(
                   "123 Liberty Lane",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.w900,
-                  ),
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-                const SizedBox(height: 12),
+                SizedBox(height: context.screenHeight * 0.01),
                 Divider(color: Theme.of(context).colorScheme.secondary),
-                const SizedBox(height: 10),
+                SizedBox(height: context.screenHeight * 0.01),
                 Row(
                   children: [
-                    _buildIconLabel(Icons.groups, "3 Voters", Colors.red),
+                    _buildIconLabel(
+                      context,
+                      Icons.groups,
+                      "3 Voters",
+                      Theme.of(context).colorScheme.primary,
+                    ),
                     const SizedBox(width: 20),
                     _buildIconLabel(
+                      context,
                       Icons.check_circle,
                       "Strong Lean",
-                      Colors.green,
+                      Theme.of(context).colorScheme.tertiaryFixed,
                     ),
                   ],
                 ),
-                const SizedBox(height: 10),
+                SizedBox(height: context.screenHeight * 0.01),
                 Divider(color: Theme.of(context).colorScheme.secondary),
               ],
             ),
@@ -245,38 +256,6 @@ class FieldSurveyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildStartButton(BuildContext context) {
-    return Container(
-      color: Theme.of(context).colorScheme.surface,
-      padding: const EdgeInsets.fromLTRB(20, 10, 20, 25),
-      child: SizedBox(
-        width: double.infinity,
-        height: 60,
-        child: ElevatedButton.icon(
-          onPressed: () {
-            Navigator.pushNamed(context, '/voterProfiling');
-          },
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Theme.of(context).colorScheme.primary,
-            elevation: 0,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-          ),
-          icon: const Icon(Icons.play_arrow, color: Colors.white, size: 28),
-          label: const Text(
-            "START INTERACTION",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 16,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
   Widget _buildBadge(String text, Color bg, Color textCol) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -295,17 +274,21 @@ class FieldSurveyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildIconLabel(IconData icon, String text, Color color) {
+  Widget _buildIconLabel(
+    BuildContext context,
+    IconData icon,
+    String text,
+    Color color,
+  ) {
     return Row(
       children: [
-        Icon(icon, color: color, size: 18),
+        Icon(icon, color: color, size: context.isSmall ? 16 : 18),
         const SizedBox(width: 6),
         Text(
           text,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
+          style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: Theme.of(context).colorScheme.onSurface,
+            fontWeight: FontWeight.bold,
           ),
         ),
       ],

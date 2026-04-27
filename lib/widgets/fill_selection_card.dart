@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 
 class FillSelectionCard extends StatelessWidget {
@@ -20,8 +21,13 @@ class FillSelectionCard extends StatelessWidget {
       onTap: onTap,
       child: Container(
         width: double.infinity,
-        padding: const EdgeInsets.symmetric(vertical: 60),
+        padding: context.isSmall
+            ? EdgeInsets.symmetric(vertical: 35)
+            : EdgeInsets.symmetric(vertical: 60),
         margin: const EdgeInsets.only(bottom: 16),
+        height: context.isSmall
+            ? context.screenHeight * 0.2
+            : context.screenHeight * 0.22,
         decoration: BoxDecoration(
           color: isSelected
               ? Theme.of(context).colorScheme.primary
@@ -30,16 +36,13 @@ class FillSelectionCard extends StatelessWidget {
         ),
         child: Column(
           children: [
-            Icon(icon, color: Colors.white, size: 26),
-            const SizedBox(height: 8),
-            Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-                fontSize: 22,
-                fontWeight: FontWeight.bold,
-              ),
+            Icon(
+              icon,
+              color: Theme.of(context).colorScheme.onSurface,
+              size: context.isSmall ? 20 : 26,
             ),
+            const SizedBox(height: 8),
+            Text(label, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),

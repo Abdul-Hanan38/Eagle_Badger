@@ -1,3 +1,5 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class AiDailyRouteScreen extends StatefulWidget {
@@ -15,8 +17,8 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
     bool isStandalone = false,
   }) {
     return Container(
-      width: 40,
-      height: 40,
+      width: context.isSmall ? 30 : 40,
+      height: context.isSmall ? 30 : 40,
       decoration: BoxDecoration(
         color: const Color(0xFF1A0F0F).withValues(alpha: 0.9),
         borderRadius: isStandalone
@@ -29,8 +31,8 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
       ),
       child: Icon(
         icon,
-        color: Colors.white,
-        size: 30,
+        color: Theme.of(context).colorScheme.onSurface,
+        size: context.isSmall ? 20 : 30,
         fontWeight: FontWeight.bold,
       ),
     );
@@ -52,7 +54,7 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
           child: CustomScrollView(
             slivers: [
               SliverFillRemaining(
-                hasScrollBody: false, // Allows content to be bigger than screen
+                hasScrollBody: false,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
                   child: Column(
@@ -65,37 +67,35 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                         children: [
                           IconButton(
                             onPressed: () => Navigator.pop(context),
-                            icon: const Icon(
+                            icon: Icon(
                               Icons.arrow_back_ios_new,
-                              color: Colors.white,
-                              size: 24,
+                              color: Theme.of(context).colorScheme.onSurface,
+                              size: context.isSmall ? 18 : 20,
                             ),
                           ),
                           const SizedBox(width: 50),
-                          const Expanded(
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
                                   "AI Daily Route",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 22,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleSmall,
                                 ),
                                 Text(
                                   "District 4 Active",
-                                  style: TextStyle(
-                                    color: Color(0xFFC6102E),
-                                    fontSize: 13,
-                                    fontWeight: FontWeight.w600,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                 ),
                               ],
                             ),
                           ),
-                          const SizedBox(width: 48), // Balance for back button
+                          const SizedBox(width: 48),
                         ],
                       ),
 
@@ -104,10 +104,11 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                       // --- MAP CARD ---
                       Container(
                         width: double.infinity,
-                        height:
-                            250, // Increased height to fit all map UI elements
+                        height: context.isSmall ? 200 : 250,
                         decoration: BoxDecoration(
-                          border: Border.all(color: const Color(0xFF423436)),
+                          border: Border.all(
+                            color: Theme.of(context).colorScheme.onSecondary,
+                          ),
                         ),
                         child: ClipRRect(
                           child: Stack(
@@ -143,53 +144,80 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                 left: 15,
                                 right: 15,
                                 child: Container(
-                                  height: 45,
+                                  height: context.isSmall ? 35 : 45,
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 15,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: const Color(
-                                      0xFF1A0F0F,
-                                    ).withValues(alpha: 0.9),
-                                    borderRadius: BorderRadius.circular(12),
-                                    border: Border.all(color: Colors.white10),
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .secondaryContainer
+                                        .withValues(alpha: 0.9),
+                                    borderRadius: BorderRadius.circular(10),
+                                    border: Border.all(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.tertiaryFixedDim,
+                                    ),
                                   ),
                                   child: Row(
+                                    // Ensure the Row itself doesn't add odd stretching
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
                                     children: [
-                                      const Icon(
-                                        Icons.search,
-                                        color: Colors.white,
-                                        size: 20,
+                                      // Wrap Icon in a SizedBox to match the Text's height footprint
+                                      SizedBox(
+                                        height: context.isSmall ? 15 : 20,
+                                        child: Icon(
+                                          Icons.search,
+                                          color: Theme.of(
+                                            context,
+                                          ).colorScheme.onSurface,
+                                          size: context.isSmall ? 15 : 20,
+                                        ),
                                       ),
                                       const SizedBox(width: 10),
                                       Expanded(
                                         child: TextField(
-                                          style: const TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 14,
-                                            height: 1.0,
-                                          ),
-                                          cursorColor: const Color(0xFFC6102E),
+                                          // Use 'textAlignVertical' to force the cursor and text to the absolute middle
                                           textAlignVertical:
                                               TextAlignVertical.center,
-                                          decoration: const InputDecoration(
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodyMedium!
+                                              .copyWith(
+                                                color: Theme.of(
+                                                  context,
+                                                ).colorScheme.onSurface,
+                                                height:
+                                                    1.0, // Removes extra leading from the font
+                                                fontSize: context.isSmall
+                                                    ? 14
+                                                    : 16,
+                                              ),
+                                          decoration: InputDecoration(
                                             hintText: "Search route address",
-                                            hintStyle: TextStyle(
-                                              color: Colors.grey,
-                                              fontSize: 16,
-                                            ),
-                                            // Remove the default underline and borders
+                                            hintStyle: Theme.of(context)
+                                                .textTheme
+                                                .bodyLarge!
+                                                .copyWith(
+                                                  color: Theme.of(
+                                                    context,
+                                                  ).colorScheme.primaryFixed,
+                                                  height:
+                                                      1.0, // Must match the style's height
+                                                  fontSize: context.isSmall
+                                                      ? 14
+                                                      : 16,
+                                                ),
                                             border: InputBorder.none,
                                             focusedBorder: InputBorder.none,
                                             enabledBorder: InputBorder.none,
-                                            contentPadding: EdgeInsets
-                                                .zero, // Centers text vertically
-                                            isDense: true,
+                                            // 'isCollapsed' is more aggressive than 'isDense' for centering
+                                            isCollapsed: true,
+                                            contentPadding: EdgeInsets.zero,
                                           ),
-                                          onSubmitted: (value) {
-                                            // Handle search logic here
-                                            print("Searching for: $value");
-                                          },
                                         ),
                                       ),
                                     ],
@@ -200,20 +228,24 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                               // 4. PRIMARY ZONE BADGE (Left side)
                               Positioned(
                                 left: 12,
-                                top: 85, // Adjusted to sit below the search bar
+                                top: 85,
                                 child: Container(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 10,
                                     vertical: 4,
                                   ),
                                   decoration: BoxDecoration(
-                                    color: const Color(0xFFC6102E),
+                                    color: Theme.of(context).colorScheme.primary
+                                        .withValues(alpha: 0.8),
                                     borderRadius: BorderRadius.circular(20),
                                   ),
-                                  child: const Text(
+                                  child: Text(
                                     "Primary Zone",
                                     style: TextStyle(
-                                      color: Colors.white,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .onSurface
+                                          .withValues(alpha: 0.8),
                                       fontSize: 11,
                                       fontWeight: FontWeight.bold,
                                     ),
@@ -247,7 +279,9 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
 
                       // --- ROUTE DETAILS SECTION ---
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.screenWidth * 0.03,
+                        ),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -257,51 +291,51 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                               children: [
                                 Text(
                                   "Current Route",
-                                  style: TextStyle(
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.onPrimary,
-                                    fontSize: 14,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodyMedium!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.onPrimary,
+                                      ),
                                 ),
                                 SizedBox(height: 4),
-                                Container(
-                                  width: 200,
+                                SizedBox(
+                                  width: context.isSmall ? 150 : 200,
                                   child: Text(
                                     "North Precinct Mobilization",
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 24,
-                                      fontWeight: FontWeight.bold,
-                                      height: 1.1,
-                                    ),
+                                    style: Theme.of(
+                                      context,
+                                    ).textTheme.titleSmall,
                                   ),
                                 ),
                               ],
                             ),
                             Container(
-                              width: 100,
-                              height: 40,
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 14,
+                              width: context.isSmall ? 90 : 110,
+                              height: context.isSmall ? 35 : 40,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: context.isSmall ? 12 : 14,
                                 vertical: 2,
                               ),
                               decoration: BoxDecoration(
-                                color: const Color(0xFF381A1A),
+                                color: Theme.of(
+                                  context,
+                                ).colorScheme.onTertiaryFixed,
                                 borderRadius: BorderRadius.circular(20),
                                 border: Border.all(
                                   color: Theme.of(context).colorScheme.primary,
                                 ),
                               ),
 
-                              child: const Text(
+                              child: Text(
                                 "6 Stops Remaining",
                                 textAlign: TextAlign.left,
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.primary,
+                                    ),
                               ),
                             ),
                           ],
@@ -310,10 +344,16 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
 
                       const SizedBox(height: 20),
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.screenWidth * 0.03,
+                        ),
                         child: Column(
                           children: [
-                            const Divider(color: Colors.white10),
+                            Divider(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.tertiaryFixedDim,
+                            ),
                             IntrinsicHeight(
                               child: Row(
                                 mainAxisAlignment:
@@ -337,7 +377,11 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                                 ],
                               ),
                             ),
-                            const Divider(color: Colors.white10),
+                            Divider(
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.tertiaryFixedDim,
+                            ),
                             const SizedBox(height: 20),
 
                             // --- PRIORITY TEXT ---
@@ -345,15 +389,14 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                               children: [
                                 Text(
                                   '!',
-                                  style: TextStyle(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.bold,
-                                    color: Theme.of(
-                                      context,
-                                    ).colorScheme.primary,
-                                  ),
+                                  style: Theme.of(context).textTheme.titleSmall!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primary,
+                                      ),
                                 ),
-                                SizedBox(width: 20),
+                                SizedBox(width: context.screenWidth * 0.03),
                                 Text(
                                   '3 Priority Households & Influencer Stops',
                                   style: Theme.of(context).textTheme.bodyMedium!
@@ -374,14 +417,18 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
 
                       // --- ADDRESS ENTRY ---
                       Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 30),
+                        padding: EdgeInsets.symmetric(
+                          horizontal: context.screenWidth * 0.03,
+                        ),
                         child: Container(
                           padding: const EdgeInsets.all(16),
                           decoration: BoxDecoration(
                             color: Theme.of(context).colorScheme.surface,
                             borderRadius: BorderRadius.circular(16),
                             border: Border.all(
-                              color: const Color.fromARGB(138, 91, 90, 90),
+                              color: Theme.of(
+                                context,
+                              ).colorScheme.tertiaryFixedDim,
                             ),
                           ),
                           child: Column(
@@ -389,42 +436,47 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                             children: [
                               Text(
                                 "Manual Address Entry",
-                                style: TextStyle(
-                                  color: Theme.of(
-                                    context,
-                                  ).colorScheme.onPrimary,
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                                style: Theme.of(context).textTheme.bodySmall!
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
+                                      fontWeight: FontWeight.bold,
+                                    ),
                               ),
                               const SizedBox(height: 10),
                               TextField(
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 14,
-                                ),
+                                style: Theme.of(context).textTheme.bodyMedium!
+                                    .copyWith(
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onSurface,
+                                    ),
                                 decoration: InputDecoration(
                                   filled: true,
-                                  fillColor: Colors.white10,
+                                  fillColor: Theme.of(
+                                    context,
+                                  ).colorScheme.tertiaryFixedDim,
                                   enabledBorder: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(10),
                                     borderSide: BorderSide(
-                                      color: const Color.fromARGB(
-                                        138,
-                                        103,
-                                        103,
-                                        103,
-                                      ),
+                                      color: Theme.of(
+                                        context,
+                                      ).colorScheme.onPrimary,
                                     ),
                                   ),
-                                  prefixIcon: const Icon(
+                                  prefixIcon: Icon(
                                     Icons.location_on,
-                                    color: Colors.grey,
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryFixed,
                                     size: 20,
                                   ),
                                   hintText: "Enter Target Address",
-                                  hintStyle: const TextStyle(
-                                    color: Colors.grey,
+                                  hintStyle: TextStyle(
+                                    color: Theme.of(
+                                      context,
+                                    ).colorScheme.primaryFixed,
                                   ),
                                   border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(12),
@@ -439,11 +491,13 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
                               Center(
                                 child: Text(
                                   "GPS coordinates will be automatically generated on entery",
-                                  style: TextStyle(
-                                    color: Colors.grey,
-                                    fontSize: 8,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                                  style: Theme.of(context).textTheme.bodySmall!
+                                      .copyWith(
+                                        color: Theme.of(
+                                          context,
+                                        ).colorScheme.primaryFixed,
+                                        fontSize: context.isSmall ? 8 : 10,
+                                      ),
                                 ),
                               ),
                             ],
@@ -456,32 +510,11 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
 
                       // --- START BUTTON ---
                       Center(
-                        child: SizedBox(
-                          width: 350,
-                          height: 56,
-                          child: ElevatedButton.icon(
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/localPulse');
-                            },
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: const Color(0xFFC6102E),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                            ),
-                            icon: const Icon(
-                              Icons.play_arrow,
-                              color: Colors.white,
-                            ),
-                            label: const Text(
-                              "Start Route",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ),
+                        child: CustomButton(
+                          title: 'Start Route',
+                          leftIcon: Icons.play_arrow,
+                          onPressed: () =>
+                              Navigator.pushNamed(context, '/localPulse'),
                         ),
                       ),
                       const SizedBox(height: 20),
@@ -499,19 +532,11 @@ class _AiDailyRouteScreenState extends State<AiDailyRouteScreen> {
   Widget _buildStatColumn(String value, String label) {
     return Column(
       children: [
-        Text(
-          value,
-          style: const TextStyle(
-            color: Colors.white,
-            fontSize: 20,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        Text(value, style: Theme.of(context).textTheme.titleSmall),
         Text(
           label,
-          style: TextStyle(
+          style: Theme.of(context).textTheme.bodySmall!.copyWith(
             color: Theme.of(context).colorScheme.onPrimary,
-            fontSize: 12,
           ),
         ),
       ],

@@ -1,3 +1,6 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
+import 'package:eagle_badger/widgets/custom_appbar.dart';
+import 'package:eagle_badger/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 import 'package:eagle_badger/widgets/permission_card.dart';
 import 'package:material_symbols_icons/symbols.dart';
@@ -17,36 +20,9 @@ class _PermissionScreenState extends State<PermissionScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40),
-        child: Padding(
-          padding: EdgeInsetsGeometry.symmetric(horizontal: 15),
-          child: AppBar(
-            backgroundColor: Theme.of(context).colorScheme.surface,
-            centerTitle: true,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            leading: IconButton(
-              icon: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).colorScheme.onSurface,
-                size: 20,
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            titleSpacing: 0,
-            title: Text(
-              'Permission',
-              style: TextStyle(
-                color: Theme.of(context).colorScheme.onSurface,
-                fontWeight: FontWeight.bold,
-                fontSize: 22,
-              ),
-            ),
-          ),
-        ),
+      appBar: CustomAppBar(
+        title: 'Permission',
+        onBackTap: () => Navigator.pop(context),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
@@ -57,7 +33,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
               children: [
                 Divider(
                   color: Theme.of(context).colorScheme.secondary,
-                  thickness: 2,
+                  thickness: 1,
                 ),
                 const SizedBox(height: 20),
                 Center(
@@ -78,7 +54,7 @@ class _PermissionScreenState extends State<PermissionScreen> {
                       title: "Precision Mapping",
                       description:
                           "Identify precinct boundaries and log door-knocking activity.",
-                      icon: Symbols.interpreter_mode,
+                      icon: Icons.person_search,
                       isEnabled: isMappingEnabled,
                       onChanged: (val) =>
                           setState(() => isMappingEnabled = val),
@@ -103,15 +79,15 @@ class _PermissionScreenState extends State<PermissionScreen> {
                 ),
                 const SizedBox(height: 20),
                 Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 35,
-                    vertical: 20,
+                  padding: EdgeInsets.symmetric(
+                    horizontal: context.isSmall ? 20 : 35,
+                    vertical: context.isSmall ? 10 : 20,
                   ),
                   decoration: BoxDecoration(
                     color: Theme.of(context).colorScheme.primaryContainer,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
-                      color: const Color.fromARGB(30, 243, 150, 166),
+                      color: Theme.of(context).colorScheme.onSecondary,
                     ),
                   ),
                   child: Column(
@@ -137,35 +113,12 @@ class _PermissionScreenState extends State<PermissionScreen> {
                 ),
                 const SizedBox(height: 20),
                 // Bottom Navigation Button.
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 10, top: 10),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Theme.of(context).colorScheme.primary,
-                      minimumSize: const Size(double.infinity, 56),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                    ),
-                    onPressed: () {
-                      Navigator.of(context).pushNamed('/fieldWork');
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Continue to Field Map',
-                          style: Theme.of(context).textTheme.labelLarge,
-                        ),
-                        SizedBox(width: 8),
-                        Icon(
-                          Icons.arrow_forward_ios_outlined,
-                          color: Theme.of(context).colorScheme.onSurface,
-                        ),
-                      ],
-                    ),
-                  ),
+                CustomButton(
+                  title: 'Continue to Field Map',
+                  rightIcon: Icons.arrow_forward,
+                  onPressed: () => Navigator.pushNamed(context, '/fieldWork'),
                 ),
+                const SizedBox(height: 30),
               ],
             ),
           ),

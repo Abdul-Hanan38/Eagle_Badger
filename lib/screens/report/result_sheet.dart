@@ -1,3 +1,4 @@
+import 'package:eagle_badger/utils/responsive_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -55,11 +56,13 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
           Positioned.fill(
             child: _isInitialized
                 ? CameraPreview(_controller!)
-                : const Center(
-                    child: CircularProgressIndicator(color: Color(0xFFC6102E)),
+                : Center(
+                    child: CircularProgressIndicator(
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
                   ),
           ),
-          Container(color: Colors.black.withOpacity(0.4)),
+          Container(color: Colors.black.withValues(alpha: 0.4)),
           SafeArea(
             child: Column(
               children: [
@@ -88,25 +91,26 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
         children: [
           GestureDetector(
             onTap: () => Navigator.pop(context),
-            child: const CircleAvatar(
+            child: CircleAvatar(
               backgroundColor: Colors.black54,
-              child: Icon(Icons.close, color: Colors.white, size: 20),
+              child: Icon(
+                Icons.close,
+                color: Theme.of(context).colorScheme.onSurface,
+                size: 20,
+              ),
             ),
           ),
-          const Expanded(
+          Expanded(
             child: Column(
               children: [
                 Text(
                   "Result Sheet Upload",
                   style: TextStyle(
-                    color: Colors.white,
+                    color: Theme.of(context).colorScheme.onSurface,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                Text(
-                  "Form EC8A",
-                  style: TextStyle(color: Colors.grey, fontSize: 12),
-                ),
+                Text("Form EC8A", style: Theme.of(context).textTheme.bodySmall),
               ],
             ),
           ),
@@ -119,24 +123,25 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
   Widget _buildScanningFrame() {
     return Container(
       width: MediaQuery.of(context).size.width * 0.85,
-      height: MediaQuery.of(context).size.height * 0.55,
+      height: MediaQuery.of(context).size.height * 0.50,
       decoration: BoxDecoration(
-        border: Border.all(color: const Color(0xFFC6102E), width: 2),
+        border: Border.all(
+          color: Theme.of(context).colorScheme.primary,
+          width: 2,
+        ),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Center(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           decoration: BoxDecoration(
-            color: const Color(0xFFC6102E).withOpacity(0.2),
+            color: Theme.of(context).colorScheme.primary.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(20),
           ),
-          child: const Text(
+          child: Text(
             "Scanning Mode Active",
-            style: TextStyle(
-              color: Color(0xFFC6102E),
-              fontWeight: FontWeight.bold,
-              fontSize: 12,
+            style: Theme.of(context).textTheme.bodySmall!.copyWith(
+              color: Theme.of(context).colorScheme.primary,
             ),
           ),
         ),
@@ -146,7 +151,9 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
 
   Widget _buildCaptureButton() {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 30),
+      padding: context.isSmall
+          ? EdgeInsets.only(bottom: 10)
+          : EdgeInsets.only(bottom: 30),
       child: GestureDetector(
         onTap: () async {
           if (_isInitialized && _controller != null) {
@@ -156,16 +163,19 @@ class _ResultSheetUploadScreenState extends State<ResultSheetUploadScreen> {
           }
         },
         child: Container(
-          width: 85,
-          height: 85,
+          width: context.isSmall ? 65 : 85,
+          height: context.isSmall ? 65 : 85,
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            border: Border.all(color: const Color(0xFFC6102E), width: 4),
+            border: Border.all(
+              color: Theme.of(context).colorScheme.primary,
+              width: 4,
+            ),
           ),
-          child: const Center(
+          child: Center(
             child: CircleAvatar(
-              radius: 32,
-              backgroundColor: Colors.white,
+              radius: context.isSmall ? 25 : 32,
+              backgroundColor: Theme.of(context).colorScheme.onSurface,
               child: Icon(Icons.camera_alt, color: Colors.black, size: 28),
             ),
           ),
